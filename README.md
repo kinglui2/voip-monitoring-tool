@@ -84,6 +84,3 @@ The **VoIP Call Monitoring Tool** is a web-based application designed to track a
 | **UI Libraries** | Recharts (for graphs), TailwindCSS |
 
 ---
-
-This document serves as the foundation for rebuilding the VoIP Call Monitoring Tool.  
-The next step is **setting up the project structure and implementing the backend APIs**.
