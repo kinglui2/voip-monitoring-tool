@@ -1,12 +1,15 @@
 const express = require('express');
+const helmet = require('helmet'); // Import helmet for security
 const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 console.log('Environment Variables:', process.env); // Log all environment variables
 
 const app = express();
+app.use(helmet()); // Use helmet to set security headers
 const authRoutes = require('./routes/auth');
 const errorMiddleware = require('./middleware/errorMiddleware'); // Import error handling middleware
+const protectedRoutes = require('./routes/protected'); // Import protected routes
 const http = require('http');
 const { Server } = require('socket.io'); // Importing Socket.io
 const server = http.createServer(app); // Creating HTTP server
@@ -24,7 +27,8 @@ if (!process.env.MONGODB_URI) {
     console.error('MongoDB URI is not defined in the environment variables.');
     process.exit(1); // Exit the application if the URI is not defined
 }
-mongoose.connect(process.env.MONGODB_URI, { 
+mongoose.connect(process.env.MONGODB_URI, {
+    useFindAndModify: false,
     useNewUrlParser: true, 
     useUnifiedTopology: true, 
     useCreateIndex: true 
@@ -35,6 +39,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/calls', callRoutes); // Mounting call routes
 
+app.use('/api/protected', protectedRoutes); // Mount protected routes
 app.use(errorMiddleware); // Use error handling middleware
 
 // Basic API route

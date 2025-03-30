@@ -9,7 +9,7 @@ const roleMiddleware = (allowedRoles) => {
             next();
         } else {
             logger.error('Access denied. Insufficient permissions.'); // Log error
-            res.status(403).json({ error: 'Access denied. Insufficient permissions.' });
+            return res.status(403).json({ error: 'Access denied. Insufficient permissions.' });
         }
     };
 };
