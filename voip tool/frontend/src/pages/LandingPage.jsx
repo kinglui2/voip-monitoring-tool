@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { logout } from '../auth'; // Import the logout function
 import { io } from 'socket.io-client'; // Importing Socket.io client
 
 const LandingPage = () => {
@@ -27,6 +28,9 @@ const LandingPage = () => {
     return (
         <div>
             <h1>Welcome to the VoIP Monitoring Tool</h1>
+            <p>Your one-stop solution for monitoring VoIP calls in real-time.</p>
+            {/* Additional UI components */}
+            <button onClick={logout} className="bg-red-500 text-white rounded py-2 px-4">Logout</button>
             {/* Additional UI components */}
         </div>
     );
