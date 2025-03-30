@@ -97,21 +97,21 @@ const Login = () => {
         setError('');
         
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
                 body: JSON.stringify(formData),
-            });
+        });
 
-            const data = await response.json();
+        const data = await response.json();
             
-            if (response.ok) {
+        if (response.ok) {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 window.location.href = '/';
-            } else {
+        } else {
                 setError(data.error || 'Login failed. Please try again.');
             }
         } catch (error) {
