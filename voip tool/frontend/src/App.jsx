@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -28,21 +28,22 @@ function App() {
           } 
         />
         <Route 
-          path="/admin/dashboard" 
+          path="/admin/*" 
           element={
-            <ProtectedRoute roles={['Admin']}>
+            <ProtectedRoute allowedRoles={['Admin']}>
               <AdminDashboard />
             </ProtectedRoute>
           } 
         />
         <Route 
-          path="/supervisor/dashboard" 
+          path="/supervisor/*" 
           element={
-            <ProtectedRoute roles={['Supervisor']}>
+            <ProtectedRoute allowedRoles={['Supervisor']}>
               <SupervisorDashboard />
             </ProtectedRoute>
           } 
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
