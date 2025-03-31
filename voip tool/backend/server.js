@@ -18,7 +18,10 @@ const callRoutes = require('./routes/calls'); // Importing call routes
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Frontend URL
+    credentials: true
+}));
 app.use(express.json());
 
 // MongoDB connection
@@ -43,7 +46,15 @@ app.use(errorMiddleware); // Use error handling middleware
 
 // Basic API route
 app.get('/', (req, res) => {
-  res.send('VoIP Monitoring Tool Backend Running...');
+  res.json({
+    message: 'VoIP Monitoring Tool API Server',
+    status: 'running',
+    endpoints: {
+      login: '/api/auth/login',
+      register: '/api/auth/register'
+    },
+    frontend: 'http://localhost:5173'
+  });
 });
 
 // Start the server with Socket.io integration

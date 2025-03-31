@@ -1,34 +1,51 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Register from './pages/Register'; // Import the Register component
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import CallDashboard from './pages/CallDashboard'; // Import CallDashboard
-import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
 import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import SupervisorDashboard from './pages/SupervisorDashboard';
+import ProtectedRoute from './ProtectedRoute';
 import './App.css';
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} /> // Add the Register route
-        
-        {/* Protected routes with role-based access */}
-        <ProtectedRoute 
-          path="/" 
-          exact 
-          component={LandingPage} 
-          roles={['Admin', 'Supervisor', 'Agent']} 
-        />
-        <ProtectedRoute 
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected Routes */}
+        <Route 
           path="/dashboard" 
-          component={CallDashboard} 
-          roles={['Admin', 'Supervisor', 'Agent']} 
+          element={
+            <ProtectedRoute roles={['Agent']}>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
         />
-      </Switch>
+        <Route 
+          path="/admin/dashboard" 
+          element={
+            <ProtectedRoute roles={['Admin']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/supervisor/dashboard" 
+          element={
+            <ProtectedRoute roles={['Supervisor']}>
+              <SupervisorDashboard />
+            </ProtectedRoute>
+          } 
+        />
+      </Routes>
     </Router>
   );
 }
 
-export default App
+export default App;

@@ -1,14 +1,16 @@
 const request = require('supertest');
-const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
+const bcrypt = require('bcryptjs'); // Import bcryptjs for password hashing
 const User = require('./models/User'); // Import User model
 const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
+const protectedRoutes = require('./routes/protected');
 const app = express();
 require('dotenv').config(); // Load environment variables
 
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use('/api/protected', protectedRoutes); // Add protected routes
 
 beforeAll(async () => {
     // Connect to MongoDB before running tests
@@ -75,8 +77,8 @@ describe('Auth Routes', () => {
                 username: 'invaliduser',
                 password: 'testpassword'
             });
-        expect(response.status).toBe(400);
-        expect(response.body).toHaveProperty('error', 'Invalid username or password');
+        expect(response.status).toBe(401);
+        expect(response.body).toHaveProperty('error', 'Invalid credentials');
     });
 
     it('should not login a user with incorrect password', async () => {
@@ -86,8 +88,8 @@ describe('Auth Routes', () => {
                 username: 'testuser',
                 password: 'wrongpassword'
             });
-        expect(response.status).toBe(400);
-        expect(response.body).toHaveProperty('error', 'Invalid username or password');
+        expect(response.status).toBe(401);
+        expect(response.body).toHaveProperty('error', 'Invalid credentials');
     });
 
     // Role-based Access Tests
@@ -95,7 +97,7 @@ describe('Auth Routes', () => {
         // Create an Admin user
         const adminUser = new User({
             username: 'adminuser',
-            password: await bcrypt.hash('adminpassword', 10), // Hash the password
+            password: 'adminpassword', // Password will be hashed by the pre-save hook
             email: 'admin@example.com',
             role: 'Admin' // Set role to Admin
         });
@@ -113,10 +115,11 @@ describe('Auth Routes', () => {
 
         // Attempt to access an admin-only route
         const response = await request(app)
-            .get('/api/protected/admin') // Corrected path for the protected admin route
+            .get('/api/protected/admin')
             .set('Authorization', `Bearer ${token}`);
         
-        expect(response.status).toBe(200); // Expect success
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('message', 'Admin access granted');
     });
 
     it('should not allow Agent to access admin route', async () => {

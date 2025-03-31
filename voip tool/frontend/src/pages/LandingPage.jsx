@@ -1,37 +1,72 @@
 import React, { useEffect } from 'react';
-import { logout } from '../auth'; // Import the logout function
-import { io } from 'socket.io-client'; // Importing Socket.io client
+import { useNavigate } from 'react-router-dom';
+import { FaPhone, FaChartLine, FaUsers, FaShieldAlt } from 'react-icons/fa';
+import './LandingPage.css';
 
 const LandingPage = () => {
-    const socket = io('http://localhost:5000'); // Connecting to the Socket.io server
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Listen for call updates
-        socket.on('callCreated', (call) => {
-            console.log('Call created:', call);
-        });
-
-        socket.on('callUpdated', (call) => {
-            console.log('Call updated:', call);
-        });
-
-        socket.on('callDeleted', (callId) => {
-            console.log('Call deleted:', callId);
-        });
-
-        // Cleanup on component unmount
-        return () => {
-            socket.disconnect();
-        };
-    }, [socket]); // Added socket to the dependency array
+        console.log('LandingPage component mounted');
+    }, []);
 
     return (
-        <div>
-            <h1>Welcome to the VoIP Monitoring Tool</h1>
-            <p>Your one-stop solution for monitoring VoIP calls in real-time.</p>
-            {/* Additional UI components */}
-            <button onClick={logout} className="bg-red-500 text-white rounded py-2 px-4">Logout</button>
-            {/* Additional UI components */}
+        <div className="landing-container">
+            {/* Navigation */}
+            <nav className="landing-nav">
+                <div className="nav-brand">
+                    <h1>VOIP Monitoring Tool</h1>
+                </div>
+                <div className="nav-buttons">
+                    <button onClick={() => navigate('/login')} className="login-btn">
+                        Login
+                    </button>
+                    <button onClick={() => navigate('/register')} className="register-btn">
+                        Register
+                    </button>
+                </div>
+            </nav>
+
+            {/* Hero Section */}
+            <section className="hero-section">
+                <h1>Welcome to VoIP Monitoring Tool</h1>
+                <p>Your comprehensive solution for monitoring and managing VoIP calls in real-time</p>
+                <button onClick={() => navigate('/login')} className="cta-button">
+                    Get Started
+                </button>
+            </section>
+
+            {/* Features Section */}
+            <section className="features-section">
+                <h2>Key Features</h2>
+                <div className="features-grid">
+                    <div className="feature-card">
+                        <FaPhone className="feature-icon" />
+                        <h3>Real-time Call Monitoring</h3>
+                        <p>Monitor VoIP calls as they happen with detailed analytics</p>
+                    </div>
+                    <div className="feature-card">
+                        <FaChartLine className="feature-icon" />
+                        <h3>Performance Analytics</h3>
+                        <p>Track call quality and performance metrics</p>
+                    </div>
+                    <div className="feature-card">
+                        <FaUsers className="feature-icon" />
+                        <h3>Team Management</h3>
+                        <p>Efficiently manage your call center team</p>
+                    </div>
+                    <div className="feature-card">
+                        <FaShieldAlt className="feature-icon" />
+                        <h3>Secure Access</h3>
+                        <p>Role-based access control for enhanced security</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="landing-footer">
+                <p>&copy; 2024 VoIP Monitoring Tool. All rights reserved.</p>
+            </footer>
         </div>
     );
 };

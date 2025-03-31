@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Importing the new CSS file for styling
 import '../styles/animations.css';
 import { FaUser, FaLock, FaSun, FaMoon, FaEye, FaEyeSlash, FaCheck, FaTimes } from "react-icons/fa"; // Importing icons for user and lock
 import logo from '../assets/images/logo.png';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -79,11 +81,10 @@ const Login = () => {
         document.documentElement.setAttribute('data-theme', newTheme);
     };
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Form submitted with data:', formData); // Log form data
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('Form submitted with data:', formData);
 
-        
         const usernameValidation = validateUsername(formData.username);
         const passwordValidation = validatePassword(formData.password);
         
@@ -109,18 +110,20 @@ const handleSubmit = async (e) => {
             });
 
             const data = await response.json();
-            console.log('Response from login API:', data); // Log the response
+            console.log('Response from login API:', data);
             
             if (response.ok) {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            console.log('Token and user data stored in local storage:', data.token, data.user); // Log storage confirmation
-            console.log('Current local storage:', localStorage.getItem('token'), localStorage.getItem('user')); // Log local storage contents
-
-console.log('Token stored in local storage:', localStorage.getItem('token')); // Log the token from local storage
-console.log('User data stored in local storage:', localStorage.getItem('user')); // Log the user data from local storage
-console.log('Redirecting to home page...');
-window.location.href = '/';
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                console.log('Token and user data stored in local storage:', data.token, data.user);
+                
+                if (data.user.role === 'Admin') {
+                    navigate('/admin/dashboard');
+                } else if (data.user.role === 'Supervisor') {
+                    navigate('/supervisor/dashboard');
+                } else {
+                    navigate('/dashboard');
+                }
             } else {
                 setError(data.error || 'Login failed. Please try again.');
             }
