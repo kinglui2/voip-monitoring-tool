@@ -11,16 +11,24 @@ function App() {
   return (
     <Router>
       <Switch>
-        <ProtectedRoute path="/" exact component={LandingPage} /> // Use ProtectedRoute for landing page
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} /> // Add the Register route
-
-        <ProtectedRoute path="/dashboard" component={CallDashboard} /> // Add ProtectedRoute for CallDashboard
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} /> // Add the Register route
+        
+        {/* Protected routes with role-based access */}
+        <ProtectedRoute 
+          path="/" 
+          exact 
+          component={LandingPage} 
+          roles={['Admin', 'Supervisor', 'Agent']} 
+        />
+        <ProtectedRoute 
+          path="/dashboard" 
+          component={CallDashboard} 
+          roles={['Admin', 'Supervisor', 'Agent']} 
+        />
       </Switch>
     </Router>
   );
 }
-
-
 
 export default App

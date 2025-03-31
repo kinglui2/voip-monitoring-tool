@@ -19,6 +19,7 @@ const Login = () => {
     });
 
     useEffect(() => {
+        // Check for saved theme preference
         const savedTheme = localStorage.getItem('theme') || 'dark';
         setIsDark(savedTheme === 'dark');
         document.documentElement.setAttribute('data-theme', savedTheme);
@@ -78,8 +79,10 @@ const Login = () => {
         document.documentElement.setAttribute('data-theme', newTheme);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('Form submitted with data:', formData); // Log form data
+
         
         const usernameValidation = validateUsername(formData.username);
         const passwordValidation = validatePassword(formData.password);
@@ -97,21 +100,28 @@ const Login = () => {
         setError('');
         
         try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(formData),
-        });
+            });
 
-        const data = await response.json();
+            const data = await response.json();
+            console.log('Response from login API:', data); // Log the response
             
-        if (response.ok) {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                window.location.href = '/';
-        } else {
+            if (response.ok) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            console.log('Token and user data stored in local storage:', data.token, data.user); // Log storage confirmation
+            console.log('Current local storage:', localStorage.getItem('token'), localStorage.getItem('user')); // Log local storage contents
+
+console.log('Token stored in local storage:', localStorage.getItem('token')); // Log the token from local storage
+console.log('User data stored in local storage:', localStorage.getItem('user')); // Log the user data from local storage
+console.log('Redirecting to home page...');
+window.location.href = '/';
+            } else {
                 setError(data.error || 'Login failed. Please try again.');
             }
         } catch (error) {

@@ -1,18 +1,37 @@
 const isLoggedIn = () => {
+    console.log('Checking if user is logged in...'); // Log the check
     const token = localStorage.getItem('token');
-    return token ? true : false; // Check if token exists
+    return token ? true : false;
 };
 
 const getUserRole = () => {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
-    const payload = JSON.parse(atob(token.split('.')[1])); // Decode the JWT token
-    return payload.role; // Return the user role from the token
+    console.log('Getting user role...'); // Log the role retrieval
+    const user = localStorage.getItem('user');
+    if (!user) return null;
+    try {
+        const userData = JSON.parse(user);
+        return userData.role;
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        return null;
+    }
+};
+
+const getUser = () => {
+    const user = localStorage.getItem('user');
+    if (!user) return null;
+    try {
+        return JSON.parse(user);
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        return null;
+    }
 };
 
 const logout = () => {
-    localStorage.removeItem('token'); // Clear the token
-    window.location.href = '/login'; // Redirect to login page
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
 };
 
-export { isLoggedIn, logout };
+export { isLoggedIn, getUserRole, getUser, logout };

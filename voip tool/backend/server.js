@@ -28,7 +28,6 @@ if (!process.env.MONGODB_URI) {
     process.exit(1); // Exit the application if the URI is not defined
 }
 mongoose.connect(process.env.MONGODB_URI, {
-    useFindAndModify: false,
     useNewUrlParser: true, 
     useUnifiedTopology: true, 
     useCreateIndex: true 

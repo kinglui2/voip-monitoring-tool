@@ -1,32 +1,54 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const connectDB = require('./db');
 require('dotenv').config();
 
-const connectDB = require('./config/db');
 const app = express();
 
-// Connect to the database
-connectDB();
-const PORT = process.env.PORT || 5000;
+// Initialize the application
+const initializeApp = async () => {
+    try {
+        // Connect to MongoDB first
+        console.log('Initializing database connection...');
+        await connectDB();
+        
+        // Start the server
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Failed to initialize application:', error.message);
+        process.exit(1);
+    }
+};
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Frontend URL
+    credentials: true
+}));
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
+// Root route handler
 app.get('/', (req, res) => {
-  res.send('Welcome to the VoIP Call Monitoring Tool API');
+    res.json({
+        message: 'VoIP Monitoring Tool API Server',
+        status: 'running',
+        endpoints: {
+            login: '/api/auth/login',
+            register: '/api/auth/register'
+        },
+        frontend: 'http://localhost:5173'
+    });
 });
 
-// Define additional routes
-app.use('/api', require('./routes/index'));
+// Routes
+const authRoutes = require('./backend/routes/auth.js');
+app.use('/api/auth', authRoutes);
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Start the application
+initializeApp().catch(err => {
+    console.error('Unhandled error during initialization:', err);
+    process.exit(1);
 });
