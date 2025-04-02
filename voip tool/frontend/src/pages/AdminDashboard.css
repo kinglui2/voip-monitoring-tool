@@ -1,62 +1,81 @@
-.admin-dashboard {
-    min-height: 100vh;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+:root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --bg-hover: rgba(255, 255, 255, 0.1);
+    --error: #dc3545;
 }
 
-.admin-nav {
-    background-color: var(--bg-secondary);
-    padding: 1rem 2rem;
+.admin-dashboard {
     display: flex;
-    justify-content: space-between;
+    min-height: 100vh;
+}
+
+.dashboard-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .dashboard-content {
+        margin-left: 60px;
+        padding: 1rem;
+    }
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 70px;
+}
+
+.content-header {
+    height: 80px;
+    display: flex;
     align-items: center;
+    justify-content: flex-end;
+    padding: 0 2rem;
+    background-color: var(--bg-secondary);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.nav-brand h1 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
 .user-info {
-    color: var(--text-secondary);
-}
-
-.nav-links {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.nav-link {
-    background: none;
-    border: none;
     color: var(--text-primary);
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.logout-btn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
     border-radius: 4px;
-    transition: background-color 0.2s;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.nav-link:hover {
+.logout-btn:hover {
     background-color: var(--bg-hover);
 }
 
-.nav-link.logout {
-    color: var(--error);
+.content-area {
+    padding: 2rem;
 }
 
-.admin-content {
-    padding: 2rem;
+.dashboard-home {
+    color: var(--text-primary);
 }
 
 .dashboard-grid {
@@ -76,11 +95,12 @@
 .dashboard-card h3 {
     margin: 0 0 1rem 0;
     color: var(--text-secondary);
+    font-size: 1rem;
 }
 
 .dashboard-card p {
     margin: 0;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--text-primary);
 } 

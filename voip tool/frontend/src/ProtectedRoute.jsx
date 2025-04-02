@@ -3,18 +3,24 @@ import { Navigate } from 'react-router-dom';
 import { isLoggedIn, getUserRole } from './auth'; // Import the isLoggedIn and getUserRole functions
 
 const ProtectedRoute = ({ children, roles }) => {
+    console.log('ProtectedRoute rendered with roles:', roles);
     const userRole = getUserRole(); // Get the user role
     const loggedIn = isLoggedIn(); // Check if user is logged in
 
-    console.log('User role:', userRole); // Log the user role
-    console.log('Is user logged in:', loggedIn); // Log the login status
-    console.log('Roles required:', roles); // Log the required roles
-    console.log('Is user authorized:', loggedIn && roles.includes(userRole)); // Log the authorization check
+    console.log('ProtectedRoute Debug:', {
+        userRole,
+        loggedIn,
+        roles,
+        isAuthorized: loggedIn && roles.includes(userRole),
+        path: window.location.pathname
+    });
 
     if (!loggedIn || !roles.includes(userRole)) {
+        console.log('Redirecting to login - Auth check failed');
         return <Navigate to="/login" replace />;
     }
 
+    console.log('Rendering protected content');
     return children;
 };
 

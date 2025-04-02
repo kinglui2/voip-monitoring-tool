@@ -4,24 +4,24 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 console.log('Environment Variables:', process.env); // Log all environment variables
+const http = require('http');
+const socketIo = require('socket.io');
+const ReportsWebSocketServer = require('./websocket/reportsServer');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
+const systemRoutes = require('./routes/system');
+const billingRoutes = require('./routes/billingRoutes');
+const adminRoutes = require('./routes/admin'); // Import admin routes
 
 const app = express();
 app.use(helmet()); // Use helmet to set security headers
-const authRoutes = require('./routes/auth');
-const errorMiddleware = require('./middleware/errorMiddleware'); // Import error handling middleware
-const protectedRoutes = require('./routes/protected'); // Import protected routes
-const userRoutes = require('./routes/users'); // Import user routes
-const http = require('http');
-const { Server } = require('socket.io'); // Importing Socket.io
-const server = http.createServer(app); // Creating HTTP server
-const io = new Server(server); // Initializing Socket.io with the server
-const callRoutes = require('./routes/calls'); // Importing call routes
-const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
     origin: 'http://localhost:5173', // Frontend URL
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
@@ -39,12 +39,19 @@ mongoose.connect(process.env.MONGODB_URI, {
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+// Import routes
+const protectedRoutes = require('./routes/protected');
+const callRoutes = require('./routes/calls');
+const errorMiddleware = require('./middleware/errorMiddleware'); // Import error handling middleware
+
+// Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/calls', callRoutes); // Mounting call routes
-
 app.use('/api/protected', protectedRoutes); // Mount protected routes
 app.use('/api/users', userRoutes); // Mount user routes
-app.use(errorMiddleware); // Use error handling middleware
+app.use('/api/system', systemRoutes);
+app.use('/api/billing', billingRoutes);
+app.use('/api/admin', adminRoutes); // Mount admin routes
 
 // Basic API route
 app.get('/', (req, res) => {
@@ -59,7 +66,25 @@ app.get('/', (req, res) => {
   });
 });
 
-// Start the server with Socket.io integration
+// Error handling middleware should be last
+app.use(errorMiddleware);
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.io
+const io = socketIo(server, {
+    cors: {
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST']
+    }
+});
+
+// Initialize WebSocket server
+const wss = new ReportsWebSocketServer(server);
+
+// Start the server
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
     

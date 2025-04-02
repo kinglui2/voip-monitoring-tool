@@ -1,0 +1,204 @@
+.user-management {
+    padding: 1rem;
+    color: var(--text-primary);
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.user-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.add-user-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-user-btn:hover {
+    background-color: var(--bg-hover);
+}
+
+.user-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.search-box, .filter-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--bg-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.search-box input, .filter-box select {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    padding: 0.5rem;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: var(--text-secondary);
+}
+
+.users-table {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+tr:hover {
+    background-color: var(--bg-hover);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-buttons button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+    color: #4CAF50;
+}
+
+.reset-btn:hover {
+    color: #2196F3;
+}
+
+.delete-btn:hover {
+    color: var(--error);
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h3 {
+    margin: 0 0 1.5rem 0;
+    color: var(--text-primary);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--text-primary);
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--text-primary);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.submit-btn,
+.cancel-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    background: none;
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+}
+
+.cancel-btn:hover {
+    background-color: var(--bg-hover);
+} 

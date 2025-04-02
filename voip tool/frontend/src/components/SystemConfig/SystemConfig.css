@@ -1,0 +1,283 @@
+.system-config {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.config-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.config-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.save-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+.save-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.config-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.tab-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.tab-button:hover {
+    background-color: #f5f5f5;
+}
+
+.tab-button.active {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.config-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.pbx-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pbx-button {
+    padding: 8px 16px;
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.pbx-button:hover {
+    background-color: #f5f5f5;
+}
+
+.pbx-button.active {
+    background-color: #e3f2fd;
+    border-color: #1976d2;
+    color: #1976d2;
+}
+
+.connection-status {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-indicator {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-indicator.active {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-indicator.inactive {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.status-indicator.error {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.error-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 12px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.error-message.fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.error-message button {
+    background: none;
+    border: none;
+    color: #c62828;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 4px;
+}
+
+.test-connection-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.test-connection-button:hover {
+    background-color: #1976d2;
+}
+
+.test-connection-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Loading spinner styles */
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .system-config {
+        padding: 10px;
+    }
+
+    .config-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .config-tabs {
+        flex-wrap: wrap;
+    }
+
+    .tab-button {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .pbx-selector {
+        flex-direction: column;
+    }
+
+    .pbx-button {
+        width: 100%;
+    }
+
+    .connection-status {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+} 

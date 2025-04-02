@@ -1,35 +1,4 @@
-/* App.css - Styles for the application */
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    color: #343a40;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #e9ecef;
-}
-
-button {
-    cursor: pointer;
-}
+/* App.css - Utility classes for the application */
 
 .bg-red-500 {
     background-color: #dc3545;
@@ -59,4 +28,22 @@ button {
 
 .text-red-500 {
     color: #dc3545;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
 }

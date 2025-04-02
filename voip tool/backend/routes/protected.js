@@ -1,6 +1,5 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-
 const router = express.Router();
 
 // Middleware to check if user is authenticated

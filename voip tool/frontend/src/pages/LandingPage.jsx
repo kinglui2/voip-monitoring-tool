@@ -12,13 +12,13 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../styles/LandingPage.css';
-import logo from '../assets/images/logo.png';
 
 const LandingPage = () => {
     const navRef = useRef(null);
     const scrollTopRef = useRef(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
+    const [logoError, setLogoError] = useState(false);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -29,7 +29,8 @@ const LandingPage = () => {
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+        const elements = document.querySelectorAll('.animate-on-scroll');
+        elements.forEach((el) => observer.observe(el));
 
         const handleScroll = () => {
             const nav = navRef.current;
@@ -67,8 +68,15 @@ const LandingPage = () => {
         <div className="landing-container">
             <nav className="landing-nav" ref={navRef}>
                 <div className="nav-brand" onClick={scrollToTop}>
-<img src={logo} alt="Vetracom Logo" className="nav-logo" />
-<h1>Vetracom</h1>
+                    {!logoError && (
+                        <img 
+                            src="/src/assets/images/logo.png" 
+                            alt="Vetracom Logo" 
+                            className="nav-logo"
+                            onError={() => setLogoError(true)}
+                        />
+                    )}
+                    <h1>Vetracom</h1>
                 </div>
                 <div className="nav-buttons">
                     <Link to="/login" className="login-btn">

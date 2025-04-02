@@ -135,30 +135,32 @@
 
 /* Hero Section */
 .hero-section {
-  min-height: auto;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   gap: 2rem;
-  padding: var(--header-height) 0 4rem;
+  padding: calc(var(--header-height) + 2rem) 0 4rem;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-content {
   max-width: 800px;
   padding: 0 2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-content h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--button-bg) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
+  text-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .hero-content p {
@@ -166,6 +168,7 @@
   color: var(--text-secondary);
   margin-bottom: 2rem;
   line-height: 1.6;
+  text-shadow: 0 1px 2px var(--shadow-color);
 }
 
 .hero-buttons {

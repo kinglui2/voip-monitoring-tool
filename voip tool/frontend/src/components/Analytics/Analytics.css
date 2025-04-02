@@ -1,0 +1,331 @@
+.analytics {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.analytics-header h2 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.header-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.pbx-selector {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pbx-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pbx-btn.active {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+.pbx-icon {
+    font-size: 1.2rem;
+}
+
+.pbx-status {
+    display: flex;
+    align-items: center;
+}
+
+.status-icon {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+.status-icon.connected {
+    color: #4caf50;
+}
+
+.status-icon.disconnected {
+    color: #f44336;
+}
+
+.time-range-selector {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.time-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.time-btn.active {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+.action-icon {
+    font-size: 1rem;
+}
+
+.pbx-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 0.5rem;
+    color: #c62828;
+    margin-bottom: 1rem;
+}
+
+.error-icon {
+    font-size: 1.2rem;
+}
+
+.last-sync {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.loading, .error {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.analytics-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.card-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+.card-icon {
+    font-size: 1.2rem;
+    color: #2196f3;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.chart-container {
+    height: 200px;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.chart-wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.metrics-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+}
+
+.metric .label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.metric .value {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.extensions-list, .trunk-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.extension-item, .trunk-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+}
+
+.extension-number, .trunk-name {
+    color: #2c3e50;
+}
+
+.extension-status, .trunk-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.extension-status.active, .trunk-status.active {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.extension-status.inactive, .trunk-status.inactive {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.extension-status.busy {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.health-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.health-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #2196f3;
+    transition: width 0.3s ease;
+}
+
+.trunk-status h4 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+    .analytics {
+        padding: 1rem;
+    }
+
+    .analytics-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .header-controls {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pbx-selector, .time-range-selector, .action-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .pbx-btn, .time-btn, .action-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metrics-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+} 
