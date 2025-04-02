@@ -10,6 +10,7 @@ app.use(helmet()); // Use helmet to set security headers
 const authRoutes = require('./routes/auth');
 const errorMiddleware = require('./middleware/errorMiddleware'); // Import error handling middleware
 const protectedRoutes = require('./routes/protected'); // Import protected routes
+const userRoutes = require('./routes/users'); // Import user routes
 const http = require('http');
 const { Server } = require('socket.io'); // Importing Socket.io
 const server = http.createServer(app); // Creating HTTP server
@@ -42,6 +43,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/calls', callRoutes); // Mounting call routes
 
 app.use('/api/protected', protectedRoutes); // Mount protected routes
+app.use('/api/users', userRoutes); // Mount user routes
 app.use(errorMiddleware); // Use error handling middleware
 
 // Basic API route

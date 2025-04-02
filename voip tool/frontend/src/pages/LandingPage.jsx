@@ -67,8 +67,8 @@ const LandingPage = () => {
         <div className="landing-container">
             <nav className="landing-nav" ref={navRef}>
                 <div className="nav-brand" onClick={scrollToTop}>
-                    <img src={logo} alt="VOIP Monitoring Tool Logo" className="nav-logo" />
-                    <h1>VOIP Monitoring Tool</h1>
+<img src={logo} alt="Vetracom Logo" className="nav-logo" />
+<h1>Vetracom</h1>
                 </div>
                 <div className="nav-buttons">
                     <Link to="/login" className="login-btn">
@@ -221,13 +221,13 @@ const LandingPage = () => {
                     <div className="footer-section">
                         <h3>Contact</h3>
                         <ul>
-                            <li>support@voipmonitor.com</li>
-                            <li>+1 (555) 123-4567</li>
+                            <li>kaylewis377@gmail.com</li>
+                            <li>+254111632013</li>
                         </ul>
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <p>&copy; 2024 VoIP Monitoring Tool. All rights reserved.</p>
+                    <p>&copy; 2025 Vetracom. All rights reserved.</p>
                 </div>
             </footer>
         </div>

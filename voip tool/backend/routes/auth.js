@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
             username,
             email,
             password, // Password will be hashed by the User model pre-save hook
-            role: 'Agent' // Default role
+            role: req.body.role || 'Agent' // Allow role assignment, default to 'Agent'
         });
 
         await newUser.save();

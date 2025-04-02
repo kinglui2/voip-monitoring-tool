@@ -1,0 +1,65 @@
+[33mcommit 65dbc916c4e0c603f54374658f8667ae0f1e0b3e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Mon Mar 31 23:16:45 2025 +0300
+
+    feat: improve landing page responsiveness and fix CSS errors
+
+[33mcommit 819249d6fbffa92a347f39d848bdeb021fa9bf25[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Mon Mar 31 22:19:25 2025 +0300
+
+    Implemented role-based authentication and routing: Added admin, supervisor, and agent dashboards with proper redirection. Updated login functionality and protected routes.
+
+[33mcommit 217b11a716aad62d5f7e3d0d88c77b4f47ed2f5f[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Mon Mar 31 18:21:37 2025 +0300
+
+    modified the routing
+
+[33mcommit f8d0e0de4582dbdcc84cfa468d12484f196e1d5b[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Sun Mar 30 10:18:30 2025 +0300
+
+    Update .gitignore and Login page
+
+[33mcommit be4b8f347530e58fdc106235f8978249f5d04812[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Sun Mar 30 10:03:25 2025 +0300
+
+    Update backend: Improve authentication middleware, routes, and server configuration. Remove ignored files.
+
+[33mcommit c2353d84b2c5d183b791d01f47a1c9a09e68ae4e[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Sun Mar 30 09:54:22 2025 +0300
+
+    Add new features: Protected routes, authentication, registration, and dashboard components
+
+[33mcommit d0c33ca7b3db69bff58d171671aa6c34c323402f[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Sun Mar 30 09:52:15 2025 +0300
+
+    Update login page: Add dark theme, improve form validation, and update page title
+
+[33mcommit ff89d2999300930213d9f7ff1ee408f7142cbb5a[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Fri Mar 21 22:04:34 2025 +0300
+
+    Re-added voip tool folder
+
+[33mcommit 5714e35faac442c542c3112d65d5df24c809eef3[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Fri Mar 21 21:52:45 2025 +0300
+
+    completed database setup
+
+[33mcommit 1c2d9e6ff03a794860fa4ebaf9f8fc0210077de6[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Fri Mar 7 12:31:18 2025 +0300
+
+    Create README.md
+
+[33mcommit 106f063ac0ff22ba517df2896c0589416c395195[m
+Author: kinglui2 <manyasalewis21@gmail.com>
+Date:   Sat Feb 22 10:06:30 2025 +0300
+
+    Initial commit
