@@ -5,6 +5,13 @@
     --text-secondary: #cccccc;
     --bg-hover: rgba(255, 255, 255, 0.1);
     --error: #dc3545;
+    --border-color: #404040;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --button-bg: #0056b3;
+    --button-hover: #003d80;
+    --primary: #0056b3;
+    --success-color: #28a745;
+    --error-color: #dc3545;
 }
 
 .admin-dashboard {
@@ -16,7 +23,7 @@
     flex: 1;
     margin-left: 250px;
     padding: 2rem;
-    background-color: #f8f9fa;
+    background-color: var(--bg-primary);
 }
 
 @media (max-width: 768px) {
@@ -45,7 +52,7 @@
     justify-content: flex-end;
     padding: 0 2rem;
     background-color: var(--bg-secondary);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .user-info {
@@ -59,15 +66,16 @@
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     background: none;
-    border: 1px solid var(--text-primary);
-    color: var(--text-primary);
+    border: 1px solid var(--button-bg);
+    color: var(--button-bg);
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .logout-btn:hover {
-    background-color: var(--bg-hover);
+    background-color: var(--button-bg);
+    color: var(--text-primary);
 }
 
 .content-area {
@@ -89,7 +97,15 @@
     background-color: var(--bg-secondary);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--button-bg);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .dashboard-card h3 {
@@ -102,5 +118,5 @@
     margin: 0;
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--text-primary);
+    color: var(--primary);
 } 

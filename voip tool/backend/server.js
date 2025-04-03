@@ -11,7 +11,6 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const systemRoutes = require('./routes/system');
 const billingRoutes = require('./routes/billingRoutes');
-const adminRoutes = require('./routes/admin'); // Import admin routes
 
 const app = express();
 app.use(helmet()); // Use helmet to set security headers
@@ -51,7 +50,6 @@ app.use('/api/protected', protectedRoutes); // Mount protected routes
 app.use('/api/users', userRoutes); // Mount user routes
 app.use('/api/system', systemRoutes);
 app.use('/api/billing', billingRoutes);
-app.use('/api/admin', adminRoutes); // Mount admin routes
 
 // Basic API route
 app.get('/', (req, res) => {
