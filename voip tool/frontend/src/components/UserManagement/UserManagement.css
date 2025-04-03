@@ -53,6 +53,7 @@
     color: var(--text-primary);
     padding: 0.5rem;
     outline: none;
+    background-color: var(--bg-secondary);
 }
 
 .search-box input::placeholder {
@@ -149,7 +150,7 @@ tr:hover {
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: var(--text-secondary);
+    color: var(--text-primary);
 }
 
 .form-group input,

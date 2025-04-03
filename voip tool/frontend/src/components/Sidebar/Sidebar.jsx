@@ -33,7 +33,7 @@ const Sidebar = () => {
     return (
         <div className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
             <div className="sidebar-header">
-                <h1 className="brand">VoIP Monitor</h1>
+                <h1 className="brand">Vetracom</h1>
                 <button 
                     className="collapse-btn"
                     onClick={() => setIsCollapsed(!isCollapsed)}

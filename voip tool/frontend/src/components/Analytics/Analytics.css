@@ -103,7 +103,7 @@
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
     background-color: white;
-    color: #6c757d;
+    color: #6c757d  !important;
     cursor: pointer;
     transition: all 0.2s ease;
 }

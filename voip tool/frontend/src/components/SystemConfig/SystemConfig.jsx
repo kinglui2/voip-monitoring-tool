@@ -3,6 +3,7 @@ import { FaServer, FaShieldAlt, FaBell, FaSave, FaFlask } from 'react-icons/fa';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import ErrorMessage from '../shared/ErrorMessage';
 import './SystemConfig.css';
+import { Colors } from 'chart.js';
 
 const SystemConfig = () => {
     const [activeTab, setActiveTab] = useState('monitoring');
