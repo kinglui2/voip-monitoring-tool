@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet'); // Import helmet for security
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 require('dotenv').config();
 console.log('Environment Variables:', process.env); // Log all environment variables
@@ -11,18 +12,27 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const systemRoutes = require('./routes/system');
 const billingRoutes = require('./routes/billingRoutes');
+const backupRoutes = require('./routes/backupRoutes');
 
 const app = express();
 app.use(helmet()); // Use helmet to set security headers
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
+    origin: 'http://localhost:5173',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Authorization'] // Explicitly expose Authorization header
 }));
 app.use(express.json());
+
+// Rate limiting configuration
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again after 15 minutes'
+});
 
 // MongoDB connection
 console.log('MongoDB URI:', process.env.MONGODB_URI); // Log the MongoDB URI
@@ -50,6 +60,7 @@ app.use('/api/protected', protectedRoutes); // Mount protected routes
 app.use('/api/users', userRoutes); // Mount user routes
 app.use('/api/system', systemRoutes);
 app.use('/api/billing', billingRoutes);
+app.use('/api/backups', apiLimiter, backupRoutes);
 
 // Basic API route
 app.get('/', (req, res) => {

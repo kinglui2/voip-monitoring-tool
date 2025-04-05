@@ -9,8 +9,7 @@ import Analytics from '../components/Analytics/Analytics';
 import Billing from '../components/Billing/Billing';
 import './AdminDashboard.css';
 
-// Placeholder components for routes
-const Backup = () => <div>Backup & Recovery</div>;
+import Backup from '../components/Backup/Backup';
 const SystemOps = () => <div>System Operations</div>;
 
 const AdminDashboard = () => {

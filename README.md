@@ -1,7 +1,58 @@
-# VoIP Call Monitoring Tool - Project Documentation
+# VetraCom - VoIP Monitoring System
 
 ## 1. Project Overview
-The **VoIP Call Monitoring Tool** is a web-based application designed to track and analyze VoIP call activity in real time. It provides insights into call statuses, analytics, and system performance, enabling better call management and troubleshooting.
+**VetraCom** is a web-based application designed to track and analyze VoIP call activity in real time. It provides insights into call statuses, analytics, and system performance, enabling better call management and troubleshooting.
+
+## 2. Quick Start Guide
+
+### Prerequisites
+- Node.js (v16+)
+- MongoDB (v5+)
+- npm (v8+)
+
+### Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/your-repo/vetracom.git
+cd vetracom
+```
+
+2. Install dependencies for both frontend and backend:
+```bash
+cd "voip tool/backend" && npm install
+cd "../frontend" && npm install
+```
+
+3. Set up environment variables:
+```bash
+# Backend .env file (voip tool/backend/.env)
+MONGODB_URI=mongodb://localhost:27017/vetracom
+JWT_SECRET=your-secret-key
+PORT=5000
+```
+
+### Running the Application
+1. Start the backend server:
+```bash
+cd "voip tool/backend" && npm run dev
+```
+
+2. Start the frontend development server:
+```bash
+cd "voip tool/frontend" && npm run dev
+```
+
+3. Access the application at:
+```
+http://localhost:5173
+```
+
+### Test Credentials
+| Role        | Username   | Password    |
+|-------------|------------|-------------|
+| Admin       | lewis      | lewis123    |
+| Supervisor  | supervisor | supervisor123 |
+| Agent       | luiz       | luiz123     |
 
 ## 2. Objectives
 - Monitor and display live VoIP call data.

@@ -1,0 +1,90 @@
+.backup {
+    padding: 20px;
+    position: relative;
+}
+
+.backup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.backup-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.tab-button.active {
+    border-bottom: 2px solid #3a86ff;
+    color: #3a86ff;
+}
+
+.backup-content {
+    padding: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.backup-button, .restore-button, .refresh-button {
+    padding: 8px 16px;
+    background-color: #3a86ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.backup-button:hover, .restore-button:hover, .refresh-button:hover {
+    background-color: #2667cc;
+}
+
+.backup-list {
+    margin-top: 20px;
+}
+
+.backup-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #eee;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.backup-info {
+    display: flex;
+    gap: 20px;
+}
