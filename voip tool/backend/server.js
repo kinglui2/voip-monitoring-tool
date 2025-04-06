@@ -15,17 +15,18 @@ const systemRoutes = require('./routes/system');
 const billingRoutes = require('./routes/billingRoutes');
 const backupRoutes = require('./routes/backupRoutes');
 const pbxRoutes = require('./routes/pbx');
+const dashboardRoutes = require('./routes/dashboard');
 
 const app = express();
 app.use(helmet()); // Use helmet to set security headers
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['Authorization'] // Explicitly expose Authorization header
+    exposedHeaders: ['Authorization']
 }));
 app.use(express.json());
 
@@ -64,6 +65,7 @@ app.use('/api/system', systemRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/backups', apiLimiter, backupRoutes);
 app.use('/api/pbx', pbxRoutes); // Mount PBX routes
+app.use('/api/dashboard', dashboardRoutes); // Mount dashboard routes
 
 // Basic API route
 app.get('/', (req, res) => {

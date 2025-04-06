@@ -142,6 +142,14 @@ class ThreeCXService extends EventEmitter {
 
     async getSystemStatus() {
         try {
+            if (!this.config || !this.connected) {
+                return {
+                    isConnected: false,
+                    lastSync: this.lastSync,
+                    message: 'Not connected to 3CX'
+                };
+            }
+
             const response = await axios.get(`${this.config.serverUrl}/api/status`, {
                 headers: {
                     'Authorization': `Bearer ${this.config.apiKey}`
@@ -149,14 +157,18 @@ class ThreeCXService extends EventEmitter {
             });
 
             return {
-                success: true,
-                data: response.data
+                isConnected: true,
+                lastSync: this.lastSync,
+                data: response.data,
+                message: 'Connected to 3CX'
             };
         } catch (error) {
             logger.error('Error fetching 3CX system status:', error);
             return {
-                success: false,
-                error: error.message
+                isConnected: false,
+                lastSync: this.lastSync,
+                error: error.message,
+                message: 'Error connecting to 3CX'
             };
         }
     }
