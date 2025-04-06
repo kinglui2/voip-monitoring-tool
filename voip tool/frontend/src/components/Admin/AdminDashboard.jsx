@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaUsers, FaServer, FaShieldAlt, FaHistory, FaExclamationTriangle } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import ErrorMessage from '../shared/ErrorMessage';
 import './AdminDashboard.css';
@@ -22,6 +23,17 @@ const AdminDashboard = () => {
         fetchDashboardData();
     }, []);
 
+    const handleError = (error) => {
+        console.error('Error fetching dashboard data:', error);
+        const isNetworkError = error.message.includes('Failed to fetch') || !navigator.onLine;
+        setError({
+            type: isNetworkError ? 'network' : 'general',
+            message: isNetworkError 
+                ? 'Unable to load dashboard information' 
+                : error.message || 'Error loading dashboard data'
+        });
+    };
+
     const fetchDashboardData = async () => {
         setLoading(true);
         setError(null);
@@ -38,19 +50,38 @@ const AdminDashboard = () => {
 
             const data = await response.json();
             setStats(data);
+            toast.success('Dashboard data loaded successfully');
         } catch (error) {
-            console.error('Error fetching dashboard data:', error);
-            setError('Failed to load dashboard data. Please try again.');
+            handleError(error);
         } finally {
             setLoading(false);
         }
+    };
+
+    const renderError = () => {
+        if (!error) return null;
+
+        return error.type === 'network' ? (
+            <ErrorMessage 
+                type="full"
+                title="Dashboard Error"
+                message={error.message}
+                suggestion="Please check your connection and try again"
+                onRetry={fetchDashboardData}
+            />
+        ) : (
+            <ErrorMessage 
+                message={error.message}
+                onClose={() => setError(null)}
+            />
+        );
     };
 
     if (loading) return <LoadingSpinner />;
 
     return (
         <div className="admin-dashboard">
-            {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
+            {renderError()}
             
             <h2>Admin Dashboard</h2>
             
@@ -70,33 +101,15 @@ const AdminDashboard = () => {
                         <h3>System Health</h3>
                         <div className="health-metrics">
                             <div className="metric">
-                                <span>CPU:</span>
-                                <div className="progress-bar">
-                                    <div 
-                                        className="progress" 
-                                        style={{ width: `${stats.systemHealth.cpu}%` }}
-                                    />
-                                </div>
+                                <span>CPU</span>
                                 <span>{stats.systemHealth.cpu}%</span>
                             </div>
                             <div className="metric">
-                                <span>Memory:</span>
-                                <div className="progress-bar">
-                                    <div 
-                                        className="progress" 
-                                        style={{ width: `${stats.systemHealth.memory}%` }}
-                                    />
-                                </div>
+                                <span>Memory</span>
                                 <span>{stats.systemHealth.memory}%</span>
                             </div>
                             <div className="metric">
-                                <span>Disk:</span>
-                                <div className="progress-bar">
-                                    <div 
-                                        className="progress" 
-                                        style={{ width: `${stats.systemHealth.disk}%` }}
-                                    />
-                                </div>
+                                <span>Disk</span>
                                 <span>{stats.systemHealth.disk}%</span>
                             </div>
                         </div>

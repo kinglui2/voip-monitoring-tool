@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaKey, FaSearch, FaFilter } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import ErrorMessage from '../shared/ErrorMessage';
 import './UserManagement.css';
@@ -62,6 +63,7 @@ const UserManagement = () => {
             
             const data = await response.json();
             setUsers(data);
+            toast.success('User data loaded successfully');
         } catch (error) {
             console.error('Error fetching users:', error);
             if (error.message.includes('No authentication token found')) {
@@ -69,6 +71,7 @@ const UserManagement = () => {
             } else if (error.message.includes('Access denied')) {
                 setError('You do not have permission to view users. Please contact an administrator.');
             } else {
+                toast.error(error.message || 'Failed to load users');
                 setError(error.message || 'Failed to load users. Please try again.');
             }
         } finally {
@@ -117,8 +120,10 @@ const UserManagement = () => {
             await fetchUsers();
             setShowAddModal(false);
             setFormData({ username: '', email: '', password: '', role: 'Agent' });
+            toast.success('User added successfully');
         } catch (error) {
             console.error('Error adding user:', error);
+            toast.error(error.message || 'Failed to add user');
             setError(error.message || 'Failed to add user. Please try again.');
         } finally {
             setLoading(false);
@@ -148,8 +153,10 @@ const UserManagement = () => {
             setShowEditModal(false);
             setSelectedUser(null);
             setFormData({ username: '', email: '', password: '', role: 'Agent' });
+            toast.success('User updated successfully');
         } catch (error) {
             console.error('Error updating user:', error);
+            toast.error(error.message || 'Failed to update user');
             setError(error.message || 'Failed to update user. Please try again.');
         } finally {
             setLoading(false);
@@ -173,9 +180,11 @@ const UserManagement = () => {
             }
             
             const data = await response.json();
+            toast.success('Password reset successful');
             alert(`Password reset successful. New password: ${data.newPassword}`);
         } catch (error) {
             console.error('Error resetting password:', error);
+            toast.error(error.message || 'Failed to reset password');
             setError(error.message || 'Failed to reset password. Please try again.');
         } finally {
             setLoading(false);
@@ -200,8 +209,10 @@ const UserManagement = () => {
                 }
                 
                 await fetchUsers();
+                toast.success('User deleted successfully');
             } catch (error) {
                 console.error('Error deleting user:', error);
+                toast.error(error.message || 'Failed to delete user');
                 setError(error.message || 'Failed to delete user. Please try again.');
             } finally {
                 setLoading(false);
@@ -212,7 +223,23 @@ const UserManagement = () => {
     return (
         <div className="user-management">
             {loading && <LoadingSpinner />}
-            {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
+            
+            {error && (error.includes('No authentication token found') || error.includes('Access denied')) && (
+                <ErrorMessage 
+                    type="full"
+                    title="Authentication Error"
+                    message={error}
+                    suggestion="Please ensure you are logged in with appropriate permissions"
+                    onRetry={fetchUsers}
+                />
+            )}
+            
+            {error && !error.includes('No authentication token found') && !error.includes('Access denied') && (
+                <ErrorMessage 
+                    message={error}
+                    onClose={() => setError(null)}
+                />
+            )}
             
             <div className="user-header">
                 <h2>User Management</h2>

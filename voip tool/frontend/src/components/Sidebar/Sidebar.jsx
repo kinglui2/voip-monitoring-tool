@@ -17,17 +17,17 @@ const Sidebar = () => {
     const location = useLocation();
 
     const menuItems = [
-        { path: '/admin/users', icon: <FaUsers />, label: 'User Management' },
-        { path: '/admin/system', icon: <FaCog />, label: 'System Config' },
-        { path: '/admin/reports', icon: <FaFileAlt />, label: 'Reports' },
-        { path: '/admin/analytics', icon: <FaChartBar />, label: 'Analytics' },
-        { path: '/admin/billing', icon: <FaCreditCard />, label: 'Billing' },
-        { path: '/admin/backup', icon: <FaDatabase />, label: 'Backup & Recovery' },
-        { path: '/admin/system-ops', icon: <FaServer />, label: 'System Operations' }
+        { path: 'users', icon: <FaUsers />, label: 'User Management' },
+        { path: 'system', icon: <FaCog />, label: 'System Config' },
+        { path: 'reports', icon: <FaFileAlt />, label: 'Reports' },
+        { path: 'analytics', icon: <FaChartBar />, label: 'Analytics' },
+        { path: 'billing', icon: <FaCreditCard />, label: 'Billing' },
+        { path: 'backup', icon: <FaDatabase />, label: 'Backup & Recovery' },
+        { path: 'system-ops', icon: <FaServer />, label: 'System Operations' }
     ];
 
     const isActive = (path) => {
-        return location.pathname === path;
+        return location.pathname.endsWith(path);
     };
 
     return (

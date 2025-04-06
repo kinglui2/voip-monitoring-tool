@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaServer, FaShieldAlt, FaBell, FaSave, FaFlask } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import ErrorMessage from '../shared/ErrorMessage';
 import './SystemConfig.css';
@@ -76,9 +77,14 @@ const SystemConfig = () => {
             }
             const data = await response.json();
             setConfig(data);
+            toast.success('Configuration loaded successfully');
         } catch (err) {
-            setError('Failed to load system configuration. Please try again.');
             console.error('Error fetching config:', err);
+            if (err.message.includes('Failed to fetch')) {
+                setError(err.message);
+            } else {
+                toast.error('Error loading configuration');
+            }
         } finally {
             setLoading(false);
         }
@@ -100,10 +106,15 @@ const SystemConfig = () => {
                 throw new Error('Failed to update system configuration');
             }
 
-            await fetchConfig(); // Refresh the config after successful update
+            await fetchConfig();
+            toast.success('Configuration saved successfully');
         } catch (err) {
-            setError('Failed to save configuration. Please try again.');
             console.error('Error saving config:', err);
+            if (err.message.includes('Failed to update')) {
+                setError(err.message);
+            } else {
+                toast.error('Error saving configuration');
+            }
         } finally {
             setLoading(false);
         }
@@ -148,7 +159,23 @@ const SystemConfig = () => {
     return (
         <div className="system-config">
             {loading && <LoadingSpinner />}
-            {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
+            
+            {error && error.includes('Failed to fetch') && (
+                <ErrorMessage 
+                    type="full"
+                    title="Configuration Error"
+                    message="Unable to load system configuration"
+                    suggestion="Please check your connection and try again"
+                    onRetry={fetchConfig}
+                />
+            )}
+            
+            {error && !error.includes('Failed to fetch') && (
+                <ErrorMessage 
+                    message={error}
+                    onClose={() => setError(null)}
+                />
+            )}
             
             <div className="config-header">
                 <h2>System Configuration</h2>

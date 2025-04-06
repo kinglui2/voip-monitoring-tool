@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaFileInvoiceDollar, FaDownload, FaFilter, FaSync, FaChartBar, FaCalendarAlt, FaExclamationTriangle } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import FilterModal from './FilterModal';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import ErrorMessage from '../shared/ErrorMessage';
@@ -61,8 +63,12 @@ const Billing = () => {
             const data = await response.json();
             setBillingData(data);
         } catch (err) {
-            setError(err.message);
             console.error('Error fetching billing data:', err);
+            if (err.message.includes('Failed to fetch')) {
+                setError(err.message);
+            } else {
+                toast.error('Error loading billing data');
+            }
         } finally {
             setLoading(false);
         }
@@ -88,9 +94,10 @@ const Billing = () => {
             a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
+            toast.success('Invoice exported successfully');
         } catch (err) {
-            setError(err.message);
             console.error('Error exporting invoice:', err);
+            toast.error('Failed to export invoice');
         }
     };
 
@@ -113,9 +120,10 @@ const Billing = () => {
                 ...prev,
                 invoices: [...prev.invoices, data]
             }));
+            toast.success('Invoice generated successfully');
         } catch (err) {
-            setError(err.message);
             console.error('Error generating invoice:', err);
+            toast.error('Failed to generate invoice');
         }
     };
 
@@ -149,6 +157,25 @@ const Billing = () => {
 
     return (
         <div className="billing">
+            {loading && <LoadingSpinner />}
+            
+            {error && error.includes('Failed to fetch billing data') && (
+                <ErrorMessage 
+                    type="full"
+                    title="Billing Data Error"
+                    message="Unable to load billing information"
+                    suggestion="Please check your connection and try again"
+                    onRetry={fetchBillingData}
+                />
+            )}
+            
+            {error && !error.includes('Failed to fetch billing data') && (
+                <ErrorMessage 
+                    message={error}
+                    onClose={() => setError(null)}
+                />
+            )}
+
             <div className="billing-header">
                 <h2>Billing Management</h2>
                 <div className="header-controls">
@@ -202,14 +229,6 @@ const Billing = () => {
                     </div>
                 </div>
             </div>
-
-            {error && (
-                <ErrorMessage 
-                    message={error} 
-                    onRetry={fetchBillingData}
-                />
-            )}
-            {loading && <LoadingSpinner message="Loading billing data..." />}
 
             <div className="billing-grid">
                 <div className="billing-card">

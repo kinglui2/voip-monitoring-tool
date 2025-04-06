@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import { FaSignOutAlt } from 'react-icons/fa';
 import Sidebar from '../components/Sidebar/Sidebar';
 import UserManagement from '../components/UserManagement/UserManagement';
@@ -7,10 +7,9 @@ import SystemConfig from '../components/SystemConfig/SystemConfig';
 import Reports from '../components/Reports/Reports';
 import Analytics from '../components/Analytics/Analytics';
 import Billing from '../components/Billing/Billing';
-import './AdminDashboard.css';
-
 import Backup from '../components/Backup/Backup';
-const SystemOps = () => <div>System Operations</div>;
+import SystemOps from '../components/SystemOps/SystemOps';
+import './AdminDashboard.css';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -36,14 +35,14 @@ const AdminDashboard = () => {
                 </header>
                 <main className="content-area">
                     <Routes>
-                        <Route path="/" element={<DashboardHome />} />
-                        <Route path="/users" element={<UserManagement />} />
-                        <Route path="/system" element={<SystemConfig />} />
-                        <Route path="/reports" element={<Reports />} />
-                        <Route path="/analytics" element={<Analytics />} />
-                        <Route path="/billing" element={<Billing />} />
-                        <Route path="/backup" element={<Backup />} />
-                        <Route path="/system-ops" element={<SystemOps />} />
+                        <Route index element={<DashboardHome />} />
+                        <Route path="users" element={<UserManagement />} />
+                        <Route path="system" element={<SystemConfig />} />
+                        <Route path="reports" element={<Reports />} />
+                        <Route path="analytics" element={<Analytics />} />
+                        <Route path="billing" element={<Billing />} />
+                        <Route path="backup" element={<Backup />} />
+                        <Route path="system-ops" element={<SystemOps />} />
                     </Routes>
                 </main>
             </div>

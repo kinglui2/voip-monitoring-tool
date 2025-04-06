@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Importing the new CSS file for styling
 import '../styles/animations.css';
-import { FaUser, FaLock, FaSun, FaMoon, FaEye, FaEyeSlash, FaCheck, FaTimes } from "react-icons/fa"; // Importing icons for user and lock
+import { FaUser, FaLock, FaSun, FaMoon, FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from "react-icons/fa"; // Importing icons for user and lock
 import logo from '../assets/images/logo.png';
+import ErrorMessage from '../components/shared/ErrorMessage';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -204,9 +205,30 @@ const Login = () => {
                     </div>
                     {validation.password.message && <span className="validation-message">{validation.password.message}</span>}
                 </div>
-                {error && <p className="error-message">{error}</p>} {/* Display error message */}
-                <button type="submit" disabled={loading || !validation.username.isValid || !validation.password.isValid}>
-                    {loading ? 'Logging in...' : 'Login'}
+                
+                {error && (error.includes('Invalid credentials') || error.includes('User not found')) && (
+                    <ErrorMessage 
+                        type="full"
+                        title="Authentication Failed"
+                        message={error}
+                        suggestion="Please check your email and password and try again"
+                        onRetry={() => setError(null)}
+                    />
+                )}
+                
+                {error && !error.includes('Invalid credentials') && !error.includes('User not found') && (
+                    <ErrorMessage 
+                        message={error}
+                        onClose={() => setError(null)}
+                    />
+                )}
+
+                <button 
+                    type="submit" 
+                    className={`login-button ${loading ? 'loading' : ''}`}
+                    disabled={loading || !validation.username.isValid || !validation.password.isValid}
+                >
+                    {loading ? <FaSpinner className="spinner" /> : 'Login'}
                 </button>
             </form>
         </div>

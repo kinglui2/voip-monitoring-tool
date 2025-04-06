@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaCloudUploadAlt, FaHistory, FaRedo } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import ErrorMessage from '../shared/ErrorMessage';
 import './Backup.css';
@@ -39,7 +41,12 @@ const Backup = () => {
             const data = await response.json();
             setBackups(data);
         } catch (err) {
-            setError(err.message);
+            console.error('Error fetching backups:', err);
+            if (err.message.includes('Failed to fetch')) {
+                setError(err.message);
+            } else {
+                toast.error('Error loading backups');
+            }
         } finally {
             setLoading(false);
         }
@@ -55,8 +62,10 @@ const Backup = () => {
             });
             if (!response.ok) throw new Error('Backup failed');
             await fetchBackups();
+            toast.success('Backup created successfully');
         } catch (err) {
-            setError(err.message);
+            console.error('Error creating backup:', err);
+            toast.error('Failed to create backup');
         } finally {
             setLoading(false);
         }
@@ -69,8 +78,10 @@ const Backup = () => {
                 method: 'POST'
             });
             if (!response.ok) throw new Error('Restore failed');
+            toast.success('Backup restored successfully');
         } catch (err) {
-            setError(err.message);
+            console.error('Error restoring backup:', err);
+            toast.error('Failed to restore backup');
         } finally {
             setLoading(false);
         }
@@ -79,7 +90,23 @@ const Backup = () => {
     return (
         <div className="backup">
             {loading && <LoadingSpinner />}
-            {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
+            
+            {error && error.includes('Failed to fetch backup') && (
+                <ErrorMessage 
+                    type="full"
+                    title="Backup System Error"
+                    message="Unable to load backup information"
+                    suggestion="Please check your connection and try again"
+                    onRetry={fetchBackups}
+                />
+            )}
+            
+            {error && !error.includes('Failed to fetch backup') && (
+                <ErrorMessage 
+                    message={error}
+                    onClose={() => setError(null)}
+                />
+            )}
 
             <div className="backup-header">
                 <h2>Backup & Recovery</h2>

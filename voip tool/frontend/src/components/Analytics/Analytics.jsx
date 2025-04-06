@@ -255,7 +255,10 @@ const Analytics = () => {
 
             {pbxStatus[pbxType].error && (
                 <ErrorMessage 
-                    message={`Connection Error: ${pbxStatus[pbxType].error}`}
+                    type="full"
+                    title={`${pbxType.toUpperCase()} Connection Error`}
+                    message={pbxStatus[pbxType].error}
+                    suggestion="Please check your connection settings in System Configuration"
                     onRetry={() => checkPBXStatus()}
                 />
             )}
@@ -266,8 +269,14 @@ const Analytics = () => {
                 </div>
             )}
 
+            {error && !error.includes('connection') && (
+                <ErrorMessage 
+                    message={error}
+                    onClose={() => setError(null)}
+                />
+            )}
+
             {loading && <LoadingSpinner message="Loading analytics data..." />}
-            {error && <ErrorMessage message={error} onRetry={fetchHistoricalData} />}
 
             <div className="analytics-grid">
                 <div className="analytics-card">

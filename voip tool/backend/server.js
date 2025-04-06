@@ -14,6 +14,7 @@ const userRoutes = require('./routes/users');
 const systemRoutes = require('./routes/system');
 const billingRoutes = require('./routes/billingRoutes');
 const backupRoutes = require('./routes/backupRoutes');
+const pbxRoutes = require('./routes/pbx');
 
 const app = express();
 app.use(helmet()); // Use helmet to set security headers
@@ -62,6 +63,7 @@ app.use('/api/users', userRoutes); // Mount user routes
 app.use('/api/system', systemRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/backups', apiLimiter, backupRoutes);
+app.use('/api/pbx', pbxRoutes); // Mount PBX routes
 
 // Basic API route
 app.get('/', (req, res) => {

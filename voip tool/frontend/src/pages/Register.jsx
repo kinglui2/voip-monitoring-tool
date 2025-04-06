@@ -4,6 +4,7 @@ import './Register.css';
 import '../styles/animations.css';
 import { FaUser, FaLock, FaSun, FaMoon, FaEye, FaEyeSlash, FaCheck, FaTimes, FaPhone, FaBuilding } from "react-icons/fa";
 import logo from '../assets/images/logo.png';
+import ErrorMessage from '../components/shared/ErrorMessage';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -196,7 +197,22 @@ const Register = () => {
                 <h2>Create Account</h2>
                 <p>Join our VoIP monitoring platform</p>
 
-                {error && <div className="error-message">{error}</div>}
+                {error && error.includes('Registration failed') && (
+                    <ErrorMessage 
+                        type="full"
+                        title="Registration Error"
+                        message={error}
+                        suggestion="Please check your information and try again"
+                        onRetry={() => setError(null)}
+                    />
+                )}
+                
+                {error && !error.includes('Registration failed') && (
+                    <ErrorMessage 
+                        message={error}
+                        onClose={() => setError(null)}
+                    />
+                )}
 
                 <form onSubmit={handleSubmit}>
                     <div className="input-container">

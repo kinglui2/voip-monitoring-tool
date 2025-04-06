@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaPhone, FaChartLine, FaHistory, FaDownload, FaFilter, FaServer, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import ErrorMessage from '../shared/ErrorMessage';
 import './Reports.css';
@@ -53,6 +55,9 @@ const Reports = () => {
                     error: data.error
                 }
             }));
+            if (data.connected) {
+                toast.success(`Connected to ${pbxType.toUpperCase()} PBX`);
+            }
         } catch (err) {
             setPbxStatus(prev => ({
                 ...prev,
@@ -62,6 +67,7 @@ const Reports = () => {
                     error: err.message
                 }
             }));
+            toast.error(`Failed to connect to ${pbxType.toUpperCase()} PBX`);
         }
     };
 
@@ -74,10 +80,12 @@ const Reports = () => {
             wsRef.current.onmessage = (event) => {
                 const data = JSON.parse(event.data);
                 updateData(data);
+                toast.info('Real-time data updated');
             };
 
             wsRef.current.onerror = (error) => {
                 console.error('WebSocket error:', error);
+                toast.error('Real-time connection error');
                 setError('Real-time connection error');
             };
 
@@ -122,17 +130,24 @@ const Reports = () => {
             switch (activeTab) {
                 case 'callLogs':
                     await fetchCallLogs();
+                    toast.success('Call logs loaded successfully');
                     break;
                 case 'systemLogs':
                     await fetchSystemLogs();
+                    toast.success('System logs loaded successfully');
                     break;
                 case 'performance':
                     await fetchPerformanceMetrics();
+                    toast.success('Performance metrics loaded successfully');
                     break;
             }
         } catch (err) {
-            setError(err.message);
             console.error('Error fetching data:', err);
+            if (err.message.includes('Failed to fetch')) {
+                setError(err.message);
+            } else {
+                toast.error(err.message || 'Error fetching data');
+            }
         } finally {
             setLoading(false);
         }
@@ -200,14 +215,34 @@ const Reports = () => {
             a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
+            toast.success('Report exported successfully');
         } catch (err) {
-            setError(err.message);
             console.error('Error exporting data:', err);
+            toast.error('Failed to export report');
         }
     };
 
     return (
         <div className="reports">
+            {loading && <LoadingSpinner />}
+            
+            {error && error.includes('Failed to fetch') && (
+                <ErrorMessage 
+                    type="full"
+                    title="Data Load Error"
+                    message="Unable to load report data"
+                    suggestion="Please check your connection and try again"
+                    onRetry={fetchData}
+                />
+            )}
+            
+            {error && !error.includes('Failed to fetch') && (
+                <ErrorMessage 
+                    message={error}
+                    onClose={() => setError(null)}
+                />
+            )}
+
             <div className="reports-header">
                 <h2>Reports & Analytics</h2>
                 <div className="header-controls">
@@ -250,172 +285,122 @@ const Reports = () => {
                 </div>
             </div>
 
-            {pbxStatus[pbxType].error && (
-                <div className="pbx-error">
-                    <FaExclamationTriangle className="error-icon" />
-                    <span>Connection Error: {pbxStatus[pbxType].error}</span>
+            <div className="reports-content">
+                <div className="reports-tabs">
+                    <button 
+                        className={`tab-btn ${activeTab === 'callLogs' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('callLogs')}
+                    >
+                        <FaPhone /> Call Logs
+                    </button>
+                    <button 
+                        className={`tab-btn ${activeTab === 'systemLogs' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('systemLogs')}
+                    >
+                        <FaHistory /> System Logs
+                    </button>
+                    <button 
+                        className={`tab-btn ${activeTab === 'performance' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('performance')}
+                    >
+                        <FaChartLine /> Performance
+                    </button>
                 </div>
-            )}
 
-            {pbxStatus[pbxType].lastSync && (
-                <div className="last-sync">
-                    Last Updated: {new Date(pbxStatus[pbxType].lastSync).toLocaleString()}
-                </div>
-            )}
-
-            {!isRealTime && (
-                <div className="date-range">
-                    <div className="form-group">
-                        <label>Start Date</label>
+                <div className="reports-filters">
+                    <div className="date-range">
                         <input
                             type="date"
                             value={dateRange.startDate}
-                            onChange={(e) => setDateRange({ ...dateRange, startDate: e.target.value })}
+                            onChange={(e) => setDateRange(prev => ({ ...prev, startDate: e.target.value }))}
                         />
-                    </div>
-                    <div className="form-group">
-                        <label>End Date</label>
+                        <span>to</span>
                         <input
                             type="date"
                             value={dateRange.endDate}
-                            onChange={(e) => setDateRange({ ...dateRange, endDate: e.target.value })}
+                            onChange={(e) => setDateRange(prev => ({ ...prev, endDate: e.target.value }))}
                         />
                     </div>
-                    <button className="filter-btn" onClick={fetchData}>
-                        <FaFilter /> Apply Filter
+                    <button className="export-btn" onClick={handleExport}>
+                        <FaDownload /> Export
                     </button>
                 </div>
-            )}
 
-            <div className="reports-tabs">
-                <button 
-                    className={`tab-btn ${activeTab === 'callLogs' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('callLogs')}
-                >
-                    <FaPhone /> Call Logs
-                </button>
-                <button 
-                    className={`tab-btn ${activeTab === 'systemLogs' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('systemLogs')}
-                >
-                    <FaHistory /> System Logs
-                </button>
-                <button 
-                    className={`tab-btn ${activeTab === 'performance' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('performance')}
-                >
-                    <FaChartLine /> Performance
-                </button>
-            </div>
-
-            <div className="reports-content">
-                {loading && <LoadingSpinner message="Loading reports data..." />}
-                {error && <ErrorMessage message={error} onRetry={fetchData} />}
-                {isRealTime && (
-                    <div className="realtime-indicator">
-                        <span className="pulse"></span> Live Updates
-                    </div>
-                )}
-
-                {activeTab === 'callLogs' && (
-                    <div className="call-logs">
-                        <div className="table-header">
-                            <h3>Call Logs</h3>
-                            <button className="export-btn" onClick={handleExport}>
-                                <FaDownload /> Export
-                            </button>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date/Time</th>
-                                    <th>Extension</th>
-                                    <th>Number</th>
-                                    <th>Duration</th>
-                                    <th>Status</th>
-                                    <th>Quality</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {callLogs.map((log, index) => (
-                                    <tr key={index}>
-                                        <td>{new Date(log.timestamp).toLocaleString()}</td>
-                                        <td>{log.extension}</td>
-                                        <td>{log.number}</td>
-                                        <td>{log.duration}</td>
-                                        <td>{log.status}</td>
-                                        <td>{log.quality}</td>
+                <div className="reports-data">
+                    {activeTab === 'callLogs' && (
+                        <div className="call-logs">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Duration</th>
+                                        <th>Status</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-
-                {activeTab === 'systemLogs' && (
-                    <div className="system-logs">
-                        <div className="table-header">
-                            <h3>System Activity Logs</h3>
-                            <button className="export-btn" onClick={handleExport}>
-                                <FaDownload /> Export
-                            </button>
+                                </thead>
+                                <tbody>
+                                    {callLogs.map((log, index) => (
+                                        <tr key={index}>
+                                            <td>{new Date(log.timestamp).toLocaleString()}</td>
+                                            <td>{log.from}</td>
+                                            <td>{log.to}</td>
+                                            <td>{log.duration}s</td>
+                                            <td>{log.status}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date/Time</th>
-                                    <th>Event</th>
-                                    <th>Severity</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {systemLogs.map((log, index) => (
-                                    <tr key={index}>
-                                        <td>{new Date(log.timestamp).toLocaleString()}</td>
-                                        <td>{log.event}</td>
-                                        <td className={`severity ${log.severity}`}>{log.severity}</td>
-                                        <td>{log.details}</td>
+                    )}
+
+                    {activeTab === 'systemLogs' && (
+                        <div className="system-logs">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Level</th>
+                                        <th>Message</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                                </thead>
+                                <tbody>
+                                    {systemLogs.map((log, index) => (
+                                        <tr key={index}>
+                                            <td>{new Date(log.timestamp).toLocaleString()}</td>
+                                            <td>{log.level}</td>
+                                            <td>{log.message}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
 
-                {activeTab === 'performance' && (
-                    <div className="performance-metrics">
-                        <div className="metrics-grid">
+                    {activeTab === 'performance' && (
+                        <div className="performance-metrics">
                             <div className="metric-card">
-                                <h4>Call Volume</h4>
-                                <div className="metric-value">{performanceMetrics.callVolume}</div>
-                                <div className="metric-label">calls</div>
+                                <h3>Call Volume</h3>
+                                <p>{performanceMetrics.callVolume} calls/hour</p>
                             </div>
                             <div className="metric-card">
-                                <h4>Average Call Duration</h4>
-                                <div className="metric-value">{performanceMetrics.averageCallDuration}</div>
-                                <div className="metric-label">minutes</div>
+                                <h3>Average Call Duration</h3>
+                                <p>{performanceMetrics.averageCallDuration} minutes</p>
                             </div>
                             <div className="metric-card">
-                                <h4>Call Quality</h4>
-                                <div className="metric-value">{performanceMetrics.callQuality}</div>
-                                <div className="metric-label">MOS</div>
+                                <h3>Call Quality</h3>
+                                <p>{performanceMetrics.callQuality}%</p>
                             </div>
                             <div className="metric-card">
-                                <h4>System Uptime</h4>
-                                <div className="metric-value">{performanceMetrics.systemUptime}</div>
-                                <div className="metric-label">%</div>
+                                <h3>System Uptime</h3>
+                                <p>{performanceMetrics.systemUptime}%</p>
                             </div>
                         </div>
-                        <div className="chart-container">
-                            {/* Add charts here using a charting library */}
-                            <div className="chart-placeholder">Performance Charts</div>
-                        </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );
 };
 
-export default Reports; 
+export default Reports;
