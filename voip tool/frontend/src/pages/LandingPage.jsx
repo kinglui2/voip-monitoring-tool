@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { 
   Phone,
   LineChart,
@@ -11,6 +11,8 @@ import {
   BarChart3
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FaSun, FaMoon } from 'react-icons/fa';
+import { ThemeContext } from '../context/ThemeContext';
 import '../styles/LandingPage.css';
 
 const LandingPage = () => {
@@ -19,6 +21,7 @@ const LandingPage = () => {
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [logoError, setLogoError] = useState(false);
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -67,24 +70,33 @@ const LandingPage = () => {
     return (
         <div className="landing-container">
             <nav className="landing-nav" ref={navRef}>
-                <div className="nav-brand" onClick={scrollToTop}>
-                    {!logoError && (
-                        <img 
-                            src="/src/assets/images/logo.png" 
-                            alt="Vetracom Logo" 
-                            className="nav-logo"
-                            onError={() => setLogoError(true)}
-                        />
-                    )}
-                    <h1>Vetracom</h1>
-                </div>
-                <div className="nav-buttons">
-                    <Link to="/login" className="login-btn">
-                        Login
-                    </Link>
-                    <Link to="/register" className="register-btn">
-                        Register
-                    </Link>
+                <div className="nav-content">
+                    <div className="logo-container" onClick={scrollToTop}>
+                        {logoError ? (
+                            <span className="logo-text">VOIP Monitor</span>
+                        ) : (
+                            <>
+                                <img 
+                                    src="/src/assets/images/logo.png" 
+                                    alt="VOIP Monitor Logo" 
+                                    className="logo"
+                                    onError={() => setLogoError(true)}
+                                />
+                                <span className="logo-text">Vetracom</span>
+                            </>
+                        )}
+                    </div>
+                    <div className="nav-links">
+                        <button 
+                            className="theme-toggle" 
+                            onClick={toggleTheme}
+                            aria-label={theme === 'dark' ? "Switch to light theme" : "Switch to dark theme"}
+                        >
+                            {theme === 'dark' ? <FaSun /> : <FaMoon />}
+                        </button>
+                        <Link to="/login" className="nav-link">Login</Link>
+                        <Link to="/register" className="nav-link">Register</Link>
+                    </div>
                 </div>
             </nav>
 

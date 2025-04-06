@@ -1,17 +1,17 @@
 :root {
     --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
+    --bg-secondary: rgba(255, 255, 255, 0.05);
     --text-primary: #ffffff;
     --text-secondary: #cccccc;
-    --bg-hover: rgba(255, 255, 255, 0.1);
+    --bg-hover: rgba(0, 255, 255, 0.1);
     --error: #dc3545;
     --success: #28a745;
     --warning: #ffc107;
-    --border-color: #404040;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --button-bg: #0056b3;
-    --button-hover: #003d80;
-    --primary: #0056b3;
+    --border-color: rgba(0, 255, 255, 0.1);
+    --shadow-color: rgba(0, 255, 255, 0.1);
+    --button-bg: #00ffff;
+    --button-hover: #00e6e6;
+    --primary: #00ffff;
 }
 
 .admin-dashboard {
@@ -19,6 +19,7 @@
     min-height: 100vh;
     width: 100%;
     position: relative;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #2d2d2d 100%);
 }
 
 .main-content {
@@ -26,7 +27,7 @@
     margin-left: 280px;
     transition: margin-left 0.3s ease;
     min-height: 100vh;
-    background-color: var(--bg-primary);
+    background-color: transparent;
     display: flex;
     flex-direction: column;
     width: calc(100% - 280px);
@@ -43,7 +44,8 @@
     align-items: center;
     justify-content: flex-end;
     padding: 0 2rem;
-    background-color: var(--bg-secondary);
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
     box-shadow: 0 2px 4px var(--shadow-color);
     position: sticky;
     top: 0;
@@ -59,18 +61,18 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: none;
-    border: 1px solid var(--button-bg);
-    color: var(--button-bg);
-    border-radius: 4px;
+    padding: 0.5rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 0.5rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .logout-btn:hover {
-    background-color: var(--button-bg);
-    color: var(--text-primary);
+    background-color: var(--primary);
+    color: var(--bg-primary);
 }
 
 .content-area {
@@ -95,10 +97,10 @@
 .dashboard-card {
     background-color: var(--bg-secondary);
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 1rem;
     box-shadow: 0 2px 4px var(--shadow-color);
     border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     min-height: 150px;
     display: flex;
     flex-direction: column;
@@ -106,9 +108,9 @@
 }
 
 .dashboard-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--button-bg);
-    box-shadow: 0 4px 12px var(--shadow-color);
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 20px var(--shadow-color);
 }
 
 .dashboard-card h3 {
@@ -139,7 +141,7 @@
 .pbx-details {
     background-color: var(--bg-secondary);
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 1rem;
     margin-bottom: 2rem;
     border: 1px solid var(--border-color);
 }
@@ -174,7 +176,7 @@
 .pbx-metrics {
     background-color: var(--bg-secondary);
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 1rem;
     border: 1px solid var(--border-color);
 }
 
@@ -193,7 +195,7 @@
 .metric-card {
     background-color: var(--bg-primary);
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 1rem;
     border: 1px solid var(--border-color);
 }
 
@@ -231,7 +233,7 @@
     align-items: center;
     padding: 0.5rem;
     background-color: var(--bg-secondary);
-    border-radius: 4px;
+    border-radius: 0.5rem;
 }
 
 .performance-item .value {
@@ -255,21 +257,25 @@
 }
 
 .alert-item {
+    padding: 1rem;
+    border-radius: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem;
-    border-radius: 4px;
-    background-color: var(--bg-primary);
-    border-left: 4px solid var(--warning);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
 }
 
 .alert-item.error {
-    border-left-color: var(--error);
+    border-left: 4px solid var(--error);
 }
 
 .alert-item.warning {
-    border-left-color: var(--warning);
+    border-left: 4px solid var(--warning);
+}
+
+.alert-item.success {
+    border-left: 4px solid var(--success);
 }
 
 .alert-time {
@@ -281,18 +287,37 @@
     color: var(--text-primary);
 }
 
-.loading {
+.error-message {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--error);
     color: var(--text-primary);
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.error {
-    color: var(--error);
-    font-size: 1.2rem;
+.retry-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+    background-color: var(--button-hover);
+}
+
+.loading {
+    color: var(--text-primary);
     text-align: center;
     padding: 2rem;
+    font-size: 1.2rem;
 }
 
 @media (max-width: 768px) {

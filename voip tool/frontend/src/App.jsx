@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import SupervisorDashboard from './pages/SupervisorDashboard';
 import ProtectedRoute from './ProtectedRoute';
+import { ThemeProvider } from './context/ThemeContext';
 import './App.css';
 
 // Wrapper component to handle route logging
@@ -64,21 +65,23 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <Router>
-      <AppRoutes />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <AppRoutes />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+      </Router>
+    </ThemeProvider>
   );
 }
 

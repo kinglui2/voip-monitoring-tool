@@ -14,9 +14,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-primary, #1a1a1a);
-  color: var(--text-primary, #ffffff);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   overflow-y: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -26,6 +27,7 @@ body {
 }
 
 :root {
+  /* Default dark theme variables */
   --bg-primary: #1a1a1a;
   --bg-secondary: #2d2d2d;
   --text-primary: #ffffff;
@@ -39,6 +41,18 @@ body {
   --error-color: #dc3545;
   --header-height: 70px;
   --container-padding: 0;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #ffffff;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --border-color: #ced4da;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --button-bg: #007bff;
+  --button-hover: #0056b3;
+  --primary: #007bff;
 }
 
 /* Responsive container padding */

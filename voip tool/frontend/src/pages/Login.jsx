@@ -1,32 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Importing the new CSS file for styling
 import '../styles/animations.css';
 import { FaUser, FaLock, FaSun, FaMoon, FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from "react-icons/fa"; // Importing icons for user and lock
 import logo from '../assets/images/logo.png';
 import ErrorMessage from '../components/shared/ErrorMessage';
+import { ThemeContext } from '../context/ThemeContext';
 
 const Login = () => {
     const navigate = useNavigate();
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const [formData, setFormData] = useState({
         username: '',
         password: ''
     });
     const [error, setError] = useState('');
-    const [isDark, setIsDark] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [validation, setValidation] = useState({
         username: { isValid: false, message: '' },
         password: { isValid: false, message: '' }
     });
-
-    useEffect(() => {
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        setIsDark(savedTheme === 'dark');
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    }, []);
 
     const validateUsername = (value) => {
         if (!value) {
@@ -73,13 +67,6 @@ const Login = () => {
             ...prev,
             password: validatePassword(value)
         }));
-    };
-
-    const toggleTheme = () => {
-        const newTheme = isDark ? 'light' : 'dark';
-        setIsDark(!isDark);
-        localStorage.setItem('theme', newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
     };
 
     const handleSubmit = async (e) => {
@@ -137,8 +124,12 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <button className="theme-toggle" onClick={toggleTheme}>
-                {isDark ? <FaSun /> : <FaMoon />}
+            <button 
+                className="theme-toggle" 
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? "Switch to light theme" : "Switch to dark theme"}
+            >
+                {theme === 'dark' ? <FaSun /> : <FaMoon />}
             </button>
             <form className="login-form" onSubmit={handleSubmit} noValidate>
                 <div className="logo-container">
