@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const backupSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },
@@ -13,4 +13,4 @@ const backupSchema = new mongoose.Schema({
 
 const Backup = mongoose.model('Backup', backupSchema);
 
-export default Backup;
+module.exports = Backup;

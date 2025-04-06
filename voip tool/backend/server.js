@@ -3,7 +3,8 @@ const helmet = require('helmet'); // Import helmet for security
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 console.log('Environment Variables:', process.env); // Log all environment variables
 const http = require('http');
 const socketIo = require('socket.io');

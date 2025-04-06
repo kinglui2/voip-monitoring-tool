@@ -1,8 +1,9 @@
+
 {
+  "type": "commonjs",
   "name": "voip-monitoring-tool-backend",
   "version": "1.0.0",
   "description": "Backend for VoIP Monitoring Tool",
-  "type": "module",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",

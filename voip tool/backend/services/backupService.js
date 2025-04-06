@@ -1,10 +1,9 @@
-import Backup from '../models/backupModel.js';
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
-import { v4 as uuidv4 } from 'uuid';
+const Backup = require('../models/backupModel');
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+const { v4: uuidv4 } = require('uuid');
 
-const __dirname = path.resolve();
 const BACKUP_DIR = path.join(__dirname, '../../backups');
 
 class BackupService {
@@ -90,4 +89,4 @@ class BackupService {
     }
 }
 
-export default BackupService;
+module.exports = BackupService;

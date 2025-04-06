@@ -13,7 +13,7 @@
 ### Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-repo/vetracom.git
+git clone https://github.com/your-repo/voip-monitoring-tool.git
 cd vetracom
 ```
 
@@ -59,7 +59,7 @@ http://localhost:5173
 - Track call statuses (active, ringing, missed, failed, completed).
 - Provide real-time call analytics and reports.
 - Alert users for missed or failed calls.
-- Support integration with VoIP systems (e.g., 3CX, VoipSwitch).
+- Support integration with VoIP systems (3CX and yeastar).
 - Offer an intuitive web-based dashboard for easy monitoring.
 
 ## 3. Core Functionalities
@@ -81,7 +81,7 @@ http://localhost:5173
 - Provide notifications via the dashboard.
 
 ### 3.5 Integration with VoIP System
-- Fetch call data from **3CX, VoipSwitch, or other VoIP systems** via API or logs.
+- Fetch call data from **3CX and yeastar voip systems** via API or logs.
 - Process and store call logs in a database.
 
 ### 3.6 User Management
