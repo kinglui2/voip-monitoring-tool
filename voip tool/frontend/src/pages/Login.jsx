@@ -89,6 +89,7 @@ const Login = () => {
         setError('');
         
         try {
+            console.log('Sending login request to:', 'http://localhost:5000/api/auth/login');
             const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',
                 headers: {
@@ -98,24 +99,34 @@ const Login = () => {
             });
 
             const data = await response.json();
+            console.log('Response status:', response.status);
             console.log('Response from login API:', data);
             
             if (response.ok) {
+                console.log('Login successful, storing token and user data');
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
-                console.log('Token and user data stored in local storage:', data.token, data.user);
+                console.log('Token and user data stored in local storage:', {
+                    token: data.token,
+                    user: data.user
+                });
                 
                 if (data.user.role === 'Admin') {
+                    console.log('Redirecting to admin dashboard');
                     navigate('/admin/dashboard');
                 } else if (data.user.role === 'Supervisor') {
+                    console.log('Redirecting to supervisor dashboard');
                     navigate('/supervisor/dashboard');
                 } else {
+                    console.log('Redirecting to regular dashboard');
                     navigate('/dashboard');
                 }
             } else {
+                console.log('Login failed with error:', data.error);
                 setError(data.error || 'Login failed. Please try again.');
             }
         } catch (error) {
+            console.error('Network error during login:', error);
             setError(`Network error: ${error.message || 'Please check your connection and try again.'}`);
         } finally {
             setLoading(false);

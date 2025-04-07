@@ -53,9 +53,11 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
+        console.log(`Login attempt for username: ${username}`);
 
         // Validate input
         if (!username || !password) {
+            console.log('Missing username or password');
             return res.status(400).json({ error: 'Username and password are required' });
         }
 
@@ -65,22 +67,35 @@ router.post('/login', async (req, res) => {
         while (retries > 0) {
             try {
                 user = await User.findOne({ username }).maxTimeMS(5000);
+                console.log(`User found: ${user ? 'Yes' : 'No'}`);
+                if (user) {
+                    console.log(`User details:`, {
+                        username: user.username,
+                        role: user.role,
+                        id: user._id
+                    });
+                }
                 break;
             } catch (error) {
                 retries--;
                 if (retries === 0) throw error;
                 console.log(`Database query attempt failed. Retries left: ${retries}`);
-                await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
+                await new Promise(resolve => setTimeout(resolve, 1000));
             }
         }
 
         if (!user) {
+            console.log('User not found in database');
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         // Check password using the method from User model
+        console.log('Comparing passwords...');
         const isMatch = await user.comparePassword(password);
+        console.log(`Password match result: ${isMatch}`);
+        
         if (!isMatch) {
+            console.log('Password does not match');
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
@@ -91,6 +106,7 @@ router.post('/login', async (req, res) => {
             { expiresIn: '24h' }
         );
 
+        console.log(`Login successful for user: ${username}, role: ${user.role}`);
         res.json({ 
             token,
             user: {
