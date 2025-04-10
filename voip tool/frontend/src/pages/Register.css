@@ -1,25 +1,7 @@
 /* Modernized Register.css - Styles for the Register Page */
 
-/* Theme Variables */
 :root {
-    /* Default dark theme variables */
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --border-color: #404040;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --input-bg: transparent;
-    --button-bg: #0056b3;
-    --button-hover: #003d80;
-    --error-bg: #3d1f1f;
-    --error-border: #4d2f2f;
-    --success-color: #28a745;
-    --error-color: #dc3545;
-    --primary: #00ffff;
-}
-
-[data-theme="light"] {
+    /* Light theme variables */
     --bg-primary: #f0f2f5;
     --bg-secondary: #ffffff;
     --text-primary: #333;
@@ -33,7 +15,23 @@
     --error-border: #f5c6cb;
     --success-color: #28a745;
     --error-color: #dc3545;
-    --primary: #007bff;
+}
+
+/* Dark theme variables */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --border-color: #404040;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --input-bg: transparent;
+    --button-bg: #0056b3;
+    --button-hover: #003d80;
+    --error-bg: #3d1f1f;
+    --error-border: #4d2f2f;
+    --success-color: #28a745;
+    --error-color: #dc3545;
 }
 
 body {
@@ -54,23 +52,22 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 1rem;
-    overflow-y: auto;
+    padding: 0.5rem;
+    overflow: hidden;
 }
 
 .register-form {
     background-color: var(--bg-secondary);
-    padding: 2rem;
+    padding: 1.25rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px var(--shadow-color);
     width: 100%;
-    max-width: 800px;
-    margin: 2rem 0;
+    max-width: 400px;
 }
 
 .logo-container {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .app-logo {
@@ -83,69 +80,28 @@ body {
     text-align: center;
     color: var(--text-primary);
     margin-bottom: 0.25rem;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-top: 0;
 }
 
 .register-form p {
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
     text-align: center;
 }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.input-container {
+.form-group {
     position: relative;
     width: 100%;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.input-container label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.input-container > div {
+.input-group {
     position: relative;
     width: 100%;
     display: flex;
     align-items: center;
-}
-
-.input-container input {
-    width: 100%;
-    padding: 0.75rem 2.5rem;
-    border: none;
-    color: var(--text-primary);
-    border-bottom: 2px solid var(--border-color);
-    background-color: var(--input-bg);
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    outline: none;
-}
-
-.input-container input:focus {
-    border-color: var(--button-bg);
-    box-shadow: none;
-}
-
-.input-container input.invalid {
-    border-color: var(--error-color);
-}
-
-.input-container input.valid {
-    border-color: var(--success-color);
 }
 
 .input-icon {
@@ -159,7 +115,33 @@ body {
     pointer-events: none;
 }
 
-.validation-icon {
+.input-group input {
+    width: 100%;
+    padding: 0.5rem 2.5rem;
+    border: none;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+    background-color: transparent;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    border-color: var(--button-bg);
+    box-shadow: none;
+    outline: none;
+}
+
+.input-group input.invalid {
+    border-color: var(--error-color);
+}
+
+.input-group input.valid {
+    border-color: var(--success-color);
+}
+
+.valid-icon, .invalid-icon {
     position: absolute;
     right: 2.5rem;
     top: 50%;
@@ -168,15 +150,15 @@ body {
     pointer-events: none;
 }
 
-.validation-icon.valid {
+.valid-icon {
     color: var(--success-color);
 }
 
-.validation-icon.invalid {
+.invalid-icon {
     color: var(--error-color);
 }
 
-.validation-message {
+.error-message {
     display: block;
     font-size: 0.8rem;
     color: var(--error-color);
@@ -192,131 +174,83 @@ body {
     cursor: pointer;
     padding: 0.25rem;
     transition: color 0.3s ease;
+    background: none;
+    border: none;
 }
 
 .password-toggle:hover {
     color: var(--button-bg);
 }
 
-.register-form button {
+.register-form button[type="submit"] {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.5rem;
     background-color: var(--button-bg);
     color: #ffffff;
     border: none;
     border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
 }
 
-.register-form button:hover:not(:disabled) {
+.register-form button[type="submit"]:hover:not(:disabled) {
     background-color: var(--button-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.register-form button:disabled {
+.register-form button[type="submit"]:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
 }
 
 .error-message {
-    background-color: var(--error-bg);
     color: var(--error-color);
-    padding: 1rem;
-    border-radius: 4px;
-    margin-bottom: 1.5rem;
     text-align: center;
+    margin-top: 0.75rem;
+    background-color: var(--error-bg);
     border: 1px solid var(--error-border);
+    padding: 0.5rem;
+    border-radius: 4px;
     font-size: 0.9rem;
 }
 
-.login-link {
-    text-align: center;
-    margin-top: 1.5rem;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
-
-.login-link span {
-    color: var(--button-bg);
-    cursor: pointer;
-    transition: color 0.3s ease;
-    font-weight: 500;
-}
-
-.login-link span:hover {
-    color: var(--button-hover);
-    text-decoration: underline;
-}
-
+/* Theme Toggle Button */
 .theme-toggle {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
+    background: none;
+    border: none;
     color: var(--text-primary);
-    font-size: 1.2rem;
     cursor: pointer;
-    padding: 0.75rem;
+    font-size: 1.5rem;
+    padding: 0.5rem;
     border-radius: 50%;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    z-index: 1000;
 }
 
 .theme-toggle:hover {
-    background-color: var(--primary);
-    color: var(--bg-primary);
-    transform: scale(1.1);
-    border-color: var(--primary);
+    background-color: var(--bg-secondary);
+    transform: rotate(180deg);
 }
 
-.theme-toggle:active {
-    transform: scale(0.95);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .register-form {
-        padding: 1.5rem;
-        max-width: 100%;
-    }
-}
-
+/* Mobile Responsive Design */
 @media (max-width: 480px) {
     .app-logo {
-        max-width: 200px;
+        max-width: 240px;
     }
 
     .register-form {
-        padding: 1.5rem;
+        padding: 1rem;
     }
 
     .register-form h2 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
-    .input-container input {
-        padding: 0.6rem 2.25rem;
+    .input-group input {
+        padding: 0.4rem 2.25rem;
         font-size: 0.9rem;
     }
 
@@ -325,7 +259,7 @@ body {
         left: 0.5rem;
     }
 
-    .validation-icon {
+    .valid-icon, .invalid-icon {
         font-size: 0.9rem;
         right: 2rem;
     }

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
 import '../styles/animations.css';
-import { FaUser, FaLock, FaSun, FaMoon, FaEye, FaEyeSlash, FaCheck, FaTimes, FaPhone, FaBuilding } from "react-icons/fa";
+import { FaUser, FaLock, FaSun, FaMoon, FaEye, FaEyeSlash, FaCheck, FaTimes } from "react-icons/fa";
 import logo from '../assets/images/logo.png';
 import ErrorMessage from '../components/shared/ErrorMessage';
 import { ThemeContext } from '../context/ThemeContext';
@@ -14,9 +14,7 @@ const Register = () => {
         username: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        phoneNumber: '',
-        organization: ''
+        confirmPassword: ''
     });
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -25,9 +23,7 @@ const Register = () => {
         username: { isValid: false, message: '' },
         email: { isValid: false, message: '' },
         password: { isValid: false, message: '' },
-        confirmPassword: { isValid: false, message: '' },
-        phoneNumber: { isValid: false, message: '' },
-        organization: { isValid: false, message: '' }
+        confirmPassword: { isValid: false, message: '' }
     });
 
     const validateUsername = (value) => {
@@ -73,26 +69,6 @@ const Register = () => {
         return { isValid: true, message: '' };
     };
 
-    const validatePhoneNumber = (value) => {
-        if (!value) {
-            return { isValid: false, message: 'Phone number is required' };
-        }
-        if (!/^\+?[\d\s-]{10,}$/.test(value)) {
-            return { isValid: false, message: 'Please enter a valid phone number' };
-        }
-        return { isValid: true, message: '' };
-    };
-
-    const validateOrganization = (value) => {
-        if (!value) {
-            return { isValid: false, message: 'Organization is required' };
-        }
-        if (value.length < 2) {
-            return { isValid: false, message: 'Organization name must be at least 2 characters' };
-        }
-        return { isValid: true, message: '' };
-    };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -114,12 +90,6 @@ const Register = () => {
             case 'confirmPassword':
                 validationResult = validateConfirmPassword(value);
                 break;
-            case 'phoneNumber':
-                validationResult = validatePhoneNumber(value);
-                break;
-            case 'organization':
-                validationResult = validateOrganization(value);
-                break;
             default:
                 validationResult = { isValid: true, message: '' };
         }
@@ -139,9 +109,7 @@ const Register = () => {
             username: validateUsername(formData.username),
             email: validateEmail(formData.email),
             password: validatePassword(formData.password),
-            confirmPassword: validateConfirmPassword(formData.confirmPassword),
-            phoneNumber: validatePhoneNumber(formData.phoneNumber),
-            organization: validateOrganization(formData.organization)
+            confirmPassword: validateConfirmPassword(formData.confirmPassword)
         };
 
         setValidation(validations);
@@ -159,16 +127,20 @@ const Register = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password
+                }),
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Registration failed');
+                throw new Error(data.error || 'Registration failed');
             }
 
-            navigate('/login');
+            navigate('/login', { state: { message: 'Registration successful! Please login.' } });
         } catch (err) {
             setError(err.message || 'Registration failed. Please try again.');
         } finally {
@@ -193,194 +165,109 @@ const Register = () => {
                 <h2>Create Account</h2>
                 <p>Join our VoIP monitoring platform</p>
 
-                {error && error.includes('Registration failed') && (
+                {error && (
                     <ErrorMessage 
                         type="full"
                         title="Registration Error"
                         message={error}
-                        suggestion="Please check your information and try again"
-                        onRetry={() => setError(null)}
-                    />
-                )}
-                
-                {error && !error.includes('Registration failed') && (
-                    <ErrorMessage 
-                        message={error}
-                        onClose={() => setError(null)}
                     />
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="form-grid">
-                        <div className="input-container">
-                            <label htmlFor="username">Username</label>
-                            <div>
-                                <FaUser className="input-icon" />
-                                <input
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    value={formData.username}
-                                    onChange={handleInputChange}
-                                    className={validation.username.isValid ? 'valid' : validation.username.message ? 'invalid' : ''}
-                                    placeholder="Enter your username"
-                                />
-                                {validation.username.message && (
-                                    <>
-                                        {validation.username.isValid ? (
-                                            <FaCheck className="validation-icon valid" />
-                                        ) : (
-                                            <FaTimes className="validation-icon invalid" />
-                                        )}
-                                        <span className="validation-message">{validation.username.message}</span>
-                                    </>
-                                )}
-                            </div>
+                    <div className="form-group">
+                        <div className="input-group">
+                            <FaUser className="input-icon" />
+                            <input
+                                type="text"
+                                name="username"
+                                placeholder="Username"
+                                value={formData.username}
+                                onChange={handleInputChange}
+                                className={validation.username.isValid ? 'valid' : validation.username.message ? 'invalid' : ''}
+                            />
+                            {validation.username.isValid && <FaCheck className="valid-icon" />}
+                            {validation.username.message && <FaTimes className="invalid-icon" />}
                         </div>
-
-                        <div className="input-container">
-                            <label htmlFor="email">Email</label>
-                            <div>
-                                <FaUser className="input-icon" />
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    className={validation.email.isValid ? 'valid' : validation.email.message ? 'invalid' : ''}
-                                    placeholder="Enter your email"
-                                />
-                                {validation.email.message && (
-                                    <>
-                                        {validation.email.isValid ? (
-                                            <FaCheck className="validation-icon valid" />
-                                        ) : (
-                                            <FaTimes className="validation-icon invalid" />
-                                        )}
-                                        <span className="validation-message">{validation.email.message}</span>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="input-container">
-                            <label htmlFor="password">Password</label>
-                            <div>
-                                <FaLock className="input-icon" />
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    id="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleInputChange}
-                                    className={validation.password.isValid ? 'valid' : validation.password.message ? 'invalid' : ''}
-                                    placeholder="Enter your password"
-                                />
-                                {showPassword ? (
-                                    <FaEyeSlash className="password-toggle" onClick={() => setShowPassword(false)} />
-                                ) : (
-                                    <FaEye className="password-toggle" onClick={() => setShowPassword(true)} />
-                                )}
-                                {validation.password.message && (
-                                    <>
-                                        {validation.password.isValid ? (
-                                            <FaCheck className="validation-icon valid" />
-                                        ) : (
-                                            <FaTimes className="validation-icon invalid" />
-                                        )}
-                                        <span className="validation-message">{validation.password.message}</span>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="input-container">
-                            <label htmlFor="confirmPassword">Confirm Password</label>
-                            <div>
-                                <FaLock className="input-icon" />
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
-                                    onChange={handleInputChange}
-                                    className={validation.confirmPassword.isValid ? 'valid' : validation.confirmPassword.message ? 'invalid' : ''}
-                                    placeholder="Confirm your password"
-                                />
-                                {validation.confirmPassword.message && (
-                                    <>
-                                        {validation.confirmPassword.isValid ? (
-                                            <FaCheck className="validation-icon valid" />
-                                        ) : (
-                                            <FaTimes className="validation-icon invalid" />
-                                        )}
-                                        <span className="validation-message">{validation.confirmPassword.message}</span>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="input-container">
-                            <label htmlFor="phoneNumber">Phone Number</label>
-                            <div>
-                                <FaPhone className="input-icon" />
-                                <input
-                                    type="text"
-                                    id="phoneNumber"
-                                    name="phoneNumber"
-                                    value={formData.phoneNumber}
-                                    onChange={handleInputChange}
-                                    className={validation.phoneNumber.isValid ? 'valid' : validation.phoneNumber.message ? 'invalid' : ''}
-                                    placeholder="Enter your phone number"
-                                />
-                                {validation.phoneNumber.message && (
-                                    <>
-                                        {validation.phoneNumber.isValid ? (
-                                            <FaCheck className="validation-icon valid" />
-                                        ) : (
-                                            <FaTimes className="validation-icon invalid" />
-                                        )}
-                                        <span className="validation-message">{validation.phoneNumber.message}</span>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="input-container">
-                            <label htmlFor="organization">Organization</label>
-                            <div>
-                                <FaBuilding className="input-icon" />
-                                <input
-                                    type="text"
-                                    id="organization"
-                                    name="organization"
-                                    value={formData.organization}
-                                    onChange={handleInputChange}
-                                    className={validation.organization.isValid ? 'valid' : validation.organization.message ? 'invalid' : ''}
-                                    placeholder="Enter your organization"
-                                />
-                                {validation.organization.message && (
-                                    <>
-                                        {validation.organization.isValid ? (
-                                            <FaCheck className="validation-icon valid" />
-                                        ) : (
-                                            <FaTimes className="validation-icon invalid" />
-                                        )}
-                                        <span className="validation-message">{validation.organization.message}</span>
-                                    </>
-                                )}
-                            </div>
-                        </div>
+                        {validation.username.message && (
+                            <span className="error-message">{validation.username.message}</span>
+                        )}
                     </div>
 
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Creating Account...' : 'Create Account'}
+                    <div className="form-group">
+                        <div className="input-group">
+                            <FaUser className="input-icon" />
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                className={validation.email.isValid ? 'valid' : validation.email.message ? 'invalid' : ''}
+                            />
+                            {validation.email.isValid && <FaCheck className="valid-icon" />}
+                            {validation.email.message && <FaTimes className="invalid-icon" />}
+                        </div>
+                        {validation.email.message && (
+                            <span className="error-message">{validation.email.message}</span>
+                        )}
+                    </div>
+
+                    <div className="form-group">
+                        <div className="input-group">
+                            <FaLock className="input-icon" />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                className={validation.password.isValid ? 'valid' : validation.password.message ? 'invalid' : ''}
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                            {validation.password.isValid && <FaCheck className="valid-icon" />}
+                            {validation.password.message && <FaTimes className="invalid-icon" />}
+                        </div>
+                        {validation.password.message && (
+                            <span className="error-message">{validation.password.message}</span>
+                        )}
+                    </div>
+
+                    <div className="form-group">
+                        <div className="input-group">
+                            <FaLock className="input-icon" />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="confirmPassword"
+                                placeholder="Confirm Password"
+                                value={formData.confirmPassword}
+                                onChange={handleInputChange}
+                                className={validation.confirmPassword.isValid ? 'valid' : validation.confirmPassword.message ? 'invalid' : ''}
+                            />
+                            {validation.confirmPassword.isValid && <FaCheck className="valid-icon" />}
+                            {validation.confirmPassword.message && <FaTimes className="invalid-icon" />}
+                        </div>
+                        {validation.confirmPassword.message && (
+                            <span className="error-message">{validation.confirmPassword.message}</span>
+                        )}
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        className="register-button"
+                        disabled={loading}
+                    >
+                        {loading ? 'Registering...' : 'Register'}
                     </button>
                 </form>
 
                 <div className="login-link">
-                    Already have an account? <span onClick={() => navigate('/login')}>Login here</span>
+                    Already have an account? <a href="/login">Login here</a>
                 </div>
             </div>
         </div>
