@@ -68,12 +68,19 @@ body {
 .logo-container {
     text-align: center;
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .app-logo {
     max-width: 280px;
+    width: 100%;
     height: auto;
     object-fit: contain;
+    display: block;
+    margin: 0 auto;
 }
 
 .register-form h2 {
@@ -121,16 +128,17 @@ body {
     border: none;
     color: var(--text-primary);
     border-bottom: 2px solid var(--border-color);
-    background-color: transparent;
     font-size: 0.95rem;
     transition: all 0.3s ease;
     box-sizing: border-box;
+    outline: none;
 }
 
 .input-group input:focus {
     border-color: var(--button-bg);
     box-shadow: none;
     outline: none;
+    background-color: transparent;
 }
 
 .input-group input.invalid {
