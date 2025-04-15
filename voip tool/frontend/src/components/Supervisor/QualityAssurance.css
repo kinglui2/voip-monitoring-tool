@@ -1,0 +1,348 @@
+.quality-assurance {
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.qa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.qa-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--text-primary);
+}
+
+.header-controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.search-box, .filter-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-secondary);
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    width: 200px;
+}
+
+.search-box input::placeholder {
+    color: var(--text-secondary);
+}
+
+.filter-selector select {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    padding-right: 24px;
+}
+
+.qa-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    height: calc(100% - 80px);
+}
+
+.calls-list {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.calls-list h3 {
+    margin: 0 0 16px 0;
+    color: var(--text-primary);
+}
+
+.calls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.call-card {
+    background: var(--bg-primary);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.call-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.call-card.selected {
+    border-color: var(--primary-color);
+    background: var(--primary-color-light);
+}
+
+.call-info h4 {
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+}
+
+.call-info p {
+    margin: 4px 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.call-status {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.evaluation-badge, .pending-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.evaluation-badge {
+    background: var(--success-color-light);
+    color: var(--success-color);
+}
+
+.pending-badge {
+    background: var(--warning-color-light);
+    color: var(--warning-color);
+}
+
+.evaluation-panel {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.call-player {
+    background: var(--bg-primary);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.control-btn {
+    background: var(--bg-secondary);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: var(--bg-hover);
+}
+
+.call-duration {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.call-details h3 {
+    margin: 0 0 12px 0;
+    color: var(--text-primary);
+}
+
+.call-details p {
+    margin: 4px 0;
+    color: var(--text-secondary);
+}
+
+.evaluation-form {
+    background: var(--bg-primary);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.evaluation-form h3 {
+    margin: 0 0 16px 0;
+    color: var(--text-primary);
+}
+
+.score-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.score-category {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.score-category label {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.stars {
+    display: flex;
+    gap: 8px;
+}
+
+.star {
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.star.active {
+    color: var(--primary-color);
+}
+
+.notes-section {
+    margin-bottom: 24px;
+}
+
+.notes-section label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.notes-section textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    resize: none;
+}
+
+.evaluation-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.submit-btn, .download-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.submit-btn {
+    background: var(--primary-color);
+    color: white;
+}
+
+.submit-btn:hover {
+    background: var(--primary-color-dark);
+}
+
+.download-btn {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.download-btn:hover {
+    background: var(--bg-hover);
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-secondary);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--bg-secondary);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+.error-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-primary);
+}
+
+.error-content {
+    text-align: center;
+    padding: 24px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    max-width: 400px;
+}
+
+.error-message {
+    margin: 0 0 16px 0;
+    color: var(--error-color);
+}
+
+.retry-btn {
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: var(--primary-color-dark);
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+} 

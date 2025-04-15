@@ -16,6 +16,7 @@ const billingRoutes = require('./routes/billingRoutes');
 const backupRoutes = require('./routes/backupRoutes');
 const pbxRoutes = require('./routes/pbx');
 const dashboardRoutes = require('./routes/dashboard');
+const supervisorRoutes = require('./routes/supervisor');
 
 const app = express();
 app.use(helmet()); // Use helmet to set security headers
@@ -66,6 +67,7 @@ app.use('/api/billing', billingRoutes);
 app.use('/api/backups', apiLimiter, backupRoutes);
 app.use('/api/pbx', pbxRoutes); // Mount PBX routes
 app.use('/api/dashboard', dashboardRoutes); // Mount dashboard routes
+app.use('/api/supervisor', supervisorRoutes);
 
 // Basic API route
 app.get('/', (req, res) => {
@@ -103,23 +105,11 @@ server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
     
     io.on('connection', (socket) => {
-        console.log('A user connected');
+        console.log('New client connected');
 
-        // Emit events for call updates
-        socket.on('callCreated', (call) => {
-            io.emit('callCreated', call);
-        });
-
-        socket.on('callUpdated', (call) => {
-            io.emit('callUpdated', call);
-        });
-
-        socket.on('callDeleted', (callId) => {
-            io.emit('callDeleted', callId);
-        });
-
+        // Alert events will be handled by the supervisor service
         socket.on('disconnect', () => {
-            console.log('A user disconnected');
+            console.log('Client disconnected');
         });
     });
 });

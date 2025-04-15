@@ -37,7 +37,8 @@ app.get('/', (req, res) => {
         status: 'running',
         endpoints: {
             login: '/api/auth/login',
-            register: '/api/auth/register'
+            register: '/api/auth/register',
+            supervisor: '/api/supervisor'
         },
         frontend: 'http://localhost:5173'
     });
@@ -45,7 +46,10 @@ app.get('/', (req, res) => {
 
 // Routes
 const authRoutes = require('./backend/routes/auth.js');
+const supervisorRoutes = require('./backend/routes/supervisor.js');
+
 app.use('/api/auth', authRoutes);
+app.use('/api/supervisor', supervisorRoutes);
 
 // Start the application
 initializeApp().catch(err => {

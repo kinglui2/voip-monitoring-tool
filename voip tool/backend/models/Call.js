@@ -1,25 +1,43 @@
 const mongoose = require('mongoose');
 
 const callSchema = new mongoose.Schema({
-    caller: {
+    callerId: {
         type: String,
         required: true
     },
-    receiver: {
-        type: String,
+    agent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Agent',
         required: true
+    },
+    queue: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Queue'
     },
     status: {
         type: String,
-        enum: ['ongoing', 'completed', 'missed'],
-        default: 'ongoing'
+        enum: ['active', 'completed', 'abandoned', 'transferred'],
+        default: 'active'
     },
     duration: {
         type: Number,
-        required: true
+        default: 0
+    },
+    startTime: {
+        type: Date,
+        default: Date.now
+    },
+    endTime: {
+        type: Date
+    },
+    recordingUrl: {
+        type: String
+    },
+    notes: {
+        type: String
     }
-}, { timestamps: true });
+}, {
+    timestamps: true
+});
 
-const Call = mongoose.model('Call', callSchema);
-
-module.exports = Call;
+module.exports = mongoose.model('Call', callSchema);
